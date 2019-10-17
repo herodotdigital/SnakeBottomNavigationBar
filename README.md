@@ -1,14 +1,86 @@
-# flutter_snake_bottombar
+# SnakeNavigationBar
 
-A new Flutter bottombar widget package.
+A new Flutter SnakeNavigationBar widget package.
 
-## Getting Started
+## Preview
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+![Take a look](preview/preview.gif)
+![Take a look](preview/preview1.gif)
+![Take a look](preview/preview2.gif)
+![Take a look](preview/preview3.gif)
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Usage
+
+To use this plugin, add flutter_snake_navigationbar as a dependency in your [pubspec.yaml](https://flutter.io/using-packages/) file.
+
+
+## Properties
+
+SnakeNavigationBar has similar API to BottomNavigationBar and used BottomNavigationBarItem to show items as well. 
+
+```
+     Scaffold(
+      bottomNavigationBar: SnakeNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('tickets')),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), title: Text('calendar')),
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('home')),
+          BottomNavigationBarItem(icon: Icon(Icons.mic), title: Text('microphone')),
+          BottomNavigationBarItem(icon: Icon(Icons.search), title: Text('search'))
+        ],
+      ),
+``` 
+
+```dart
+      final List<BottomNavigationBarItem> items;
+
+      /// If [SnakeBarStyle.floating] this color is
+      /// used as background color of shaped view.
+      /// If [SnakeBarStyle.pinned] this color just
+      /// a background color of [SnakeNavigationBar] view
+      final Color backgroundColor;
+    
+      /// This color represents a SnakeView , 
+      /// unselected icons and labels color
+      final Color selectedTintColor;
+    
+      ///You can customize color for selected icon and label
+      final Color selectedIconTintColor;
+    
+      /// Whether the labels are shown for the selected [BottomNavigationBarItem].
+      final bool showSelectedLabels;
+    
+      /// Whether the labels are shown for the unselected [BottomNavigationBarItem].
+      final bool showUnselectedLabels;
+    
+      /// The index into [items] for the current active [BottomNavigationBarItem].
+      final int currentIndex;
+    
+      /// Defines the [SnakeView] shape and behavior of a [SnakeNavigationBar].
+      ///
+      /// Default is [SnakeType.circle]
+      final SnakeType type;
+    
+      /// Defines the layout and behavior of a [SnakeNavigationBar].
+      ///
+      /// See documentation for [SnakeBarStyle] for information on the
+      /// meaning of different styles.
+      ///
+      /// Default is [SnakeBarStyle.pinned]
+      final SnakeBarStyle style;
+    
+      /// You can define custom [ShapeBorder] with padding and elevation to [SnakeNavigationBar]
+      ///
+      /// IMPORTANT You can use custom shape only with [SnakeBarStyle.floating]
+      final ShapeBorder shape;
+      final EdgeInsets padding;
+      final double elevation;
+    
+      /// Called when one of the [items] is tapped.
+      final ValueChanged<int> onTap;
+```
+
+
+#### !! IMPORTANT !! if you use [SnakeType.circle] then [showSelectedLabels] parameter will be always [FALSE]
+
+    
