@@ -1,14 +1,16 @@
 # SnakeNavigationBar
 
+[![Pub](https://img.shields.io/pub/v/flutter_snake_navigationbar.svg)](https://pub.dev/packages/flutter_snake_navigationbar)
+
 A new Flutter SnakeNavigationBar widget package.
 
 ## Preview
 
-![Take a look](preview/preview.gif)
-![Take a look](preview/preview1.gif)
-![Take a look](preview/preview2.gif)
-![Take a look](preview/preview3.gif)
-![Take a look](preview/preview4.gif)
+<img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview.gif" height="500em">
+<img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview1.gif" height="500em">
+<img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview2.gif" height="500em">
+<img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview3.gif" height="500em">
+<img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview4.gif" height="500em">
 
 ## Usage
 

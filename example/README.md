@@ -15,7 +15,6 @@ class _SnakeBottomBarExampleScreenState extends State<SnakeBottomBarExampleScree
       appBar: AppBar(title: Text('SnakeBottomBar Example')),
       bottomNavigationBar: SnakeNavigationBar(
         style: SnakeBarStyle.pinned,
-        type: SnakeType.circle,
         backgroundColor: Colors.deepPurpleAccent,
         currentIndex: _selectedItemPosition,
         onTap: (index) => setState(() => _selectedItemPosition = index),
