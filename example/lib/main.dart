@@ -7,19 +7,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SnakeBottomBar Example ',
+      title: 'SnakeNavigationBar Example ',
       theme: ThemeData(appBarTheme: AppBarTheme(color: Colors.deepPurpleAccent)),
-      home: SnakeBottomBarExampleScreen(),
+      home: SnakeNavigationBarExampleScreen(),
     );
   }
 }
 
-class SnakeBottomBarExampleScreen extends StatefulWidget {
+class SnakeNavigationBarExampleScreen extends StatefulWidget {
   @override
-  _SnakeBottomBarExampleScreenState createState() => _SnakeBottomBarExampleScreenState();
+  _SnakeNavigationBarExampleScreenState createState() => _SnakeNavigationBarExampleScreenState();
 }
 
-class _SnakeBottomBarExampleScreenState extends State<SnakeBottomBarExampleScreen> {
+class _SnakeNavigationBarExampleScreenState extends State<SnakeNavigationBarExampleScreen> {
   int _selectedItemPosition = 2;
 
   @override
@@ -28,10 +28,12 @@ class _SnakeBottomBarExampleScreenState extends State<SnakeBottomBarExampleScree
       appBar: AppBar(title: Text('SnakeNavigationBar Example')),
       bottomNavigationBar: SnakeNavigationBar(
         style: SnakeBarStyle.pinned,
-        type: SnakeType.indicator,
         backgroundColor: Colors.deepPurpleAccent,
+//        snakeShape: SnakeShape(
+//            shape: BeveledRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomLeft: Radius.circular(12))),
+//            centered: true),
 //        selectedIconColor: Colors.white,
-//        selectionColor: Colors.white,
+//        selectionColor: Colors.red,
 //        showUnselectedLabels: true,
 //        showSelectedLabels: true,
 //        elevation: 4,

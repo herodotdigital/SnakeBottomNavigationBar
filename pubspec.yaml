@@ -1,8 +1,7 @@
 name: flutter_snake_navigationbar
 description: Flutter bottom navigation bar widget with snake animation on change item.
-version: 0.1.0
-authors:
-  - All in Mobile Team <hello@allinmobile.co>
+version: 0.1.1
+author: "HeroDot Team <hello@herodot.com>"
 
 homepage: https://github.com/AllinMobile/SnakeBottomNavigationBar.git
 

@@ -8,6 +8,7 @@ A new Flutter SnakeNavigationBar widget package.
 ![Take a look](preview/preview1.gif)
 ![Take a look](preview/preview2.gif)
 ![Take a look](preview/preview3.gif)
+![Take a look](preview/preview4.gif)
 
 ## Usage
 
@@ -16,8 +17,7 @@ To use this plugin, add flutter_snake_navigationbar as a dependency in your [pub
 
 ## Properties
 
-SnakeNavigationBar has similar API to BottomNavigationBar and used BottomNavigationBarItem to show items as well. 
-
+SnakeNavigationBar has a similar API to BottomNavigationBar and uses BottomNavigationBarItem to show items as well.
 ```
      Scaffold(
       bottomNavigationBar: SnakeNavigationBar(
@@ -58,8 +58,8 @@ SnakeNavigationBar has similar API to BottomNavigationBar and used BottomNavigat
     
       /// Defines the [SnakeView] shape and behavior of a [SnakeNavigationBar].
       ///
-      /// Default is [SnakeType.circle]
-      final SnakeType type;
+      /// Default is [SnakeShape.circle]
+      final SnakeShape snakeShape;
     
       /// Defines the layout and behavior of a [SnakeNavigationBar].
       ///
@@ -81,6 +81,6 @@ SnakeNavigationBar has similar API to BottomNavigationBar and used BottomNavigat
 ```
 
 
-#### !! IMPORTANT !! if you use [SnakeType.circle] then [showSelectedLabels] parameter will be always [FALSE]
+#### !! IMPORTANT !! if you use [SnakeShape.circle] then [showSelectedLabels] parameter will be always [FALSE]
 
     

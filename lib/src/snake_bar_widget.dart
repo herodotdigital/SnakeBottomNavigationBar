@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake_navigationbar/src/snake_shape.dart';
 
 import 'selection_notifier.dart';
 import 'snake_item_tile.dart';
@@ -32,8 +33,11 @@ class SnakeNavigationBar extends StatelessWidget {
 
   /// Defines the [SnakeView] shape and behavior of a [SnakeNavigationBar].
   ///
-  /// Default is [SnakeType.circle]
-  final SnakeType type;
+  /// See documentation for [SnakeShape] for information on the
+  /// meaning of different shapes.
+  ///
+  /// Default is [SnakeShape.circle]
+  final SnakeShape snakeShape;
 
   /// Defines the layout and behavior of a [SnakeNavigationBar].
   ///
@@ -53,27 +57,29 @@ class SnakeNavigationBar extends StatelessWidget {
   /// Called when one of the [items] is tapped.
   final ValueChanged<int> onTap;
 
+
   final SelectionNotifier notifier;
 
   SnakeNavigationBar({
     Color selectionColor,
     Color selectedIconColor,
-    /// if [SnakeType] is [SnakeType.circle]  showSelectedLabels will be always false
+
+    /// if [SnakeShapeType] is [SnakeShapeType.circle]  showSelectedLabels will be always false
     bool showSelectedLabels = false,
     this.showUnselectedLabels = false,
     this.items,
     this.backgroundColor,
     this.currentIndex = 0,
-    this.type = SnakeType.circle,
     this.shape,
     this.padding = EdgeInsets.zero,
     this.elevation = 0,
     this.onTap,
     this.style = SnakeBarStyle.pinned,
+    this.snakeShape = SnakeShape.circle,
   })  : selectedTintColor = selectionColor ?? Colors.white,
         selectedIconTintColor = selectedIconColor ?? backgroundColor ?? Colors.white,
         notifier = SelectionNotifier(currentIndex, onTap),
-        showSelectedLabels = (type == SnakeType.circle && showSelectedLabels) ? false : showSelectedLabels;
+        showSelectedLabels = (snakeShape.type == SnakeShapeType.circle && showSelectedLabels) ? false : showSelectedLabels;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +93,7 @@ class SnakeNavigationBar extends StatelessWidget {
               selectedIconTintColor,
               selectedTintColor,
               notifier,
-              type == SnakeType.indicator ? SelectionStyle.opacity : SelectionStyle.color,
+              snakeShape.type == SnakeShapeType.indicator ? SelectionStyle.opacity : SelectionStyle.color,
             ))
         .toList();
 
@@ -105,7 +111,7 @@ class SnakeNavigationBar extends StatelessWidget {
             child: Stack(children: [
               SnakeView(
                 itemsCount: items.length,
-                shape: type,
+                shape: snakeShape,
                 showSelectedLabels: showSelectedLabels,
                 widgetEdgePadding: padding.left + padding.right,
                 snakeColor: selectedTintColor,
@@ -120,6 +126,7 @@ class SnakeNavigationBar extends StatelessWidget {
   }
 }
 
+
 enum SnakeBarStyle {
   /// use [SnakeBarStyle.floating] style if you want to
   /// separate [SnakeNavigationBar] from bottom side
@@ -129,5 +136,3 @@ enum SnakeBarStyle {
   /// which is pinned to bottom side
   pinned
 }
-
-enum SnakeType { circle, rectangle, indicator }
