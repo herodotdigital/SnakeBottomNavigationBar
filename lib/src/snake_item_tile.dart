@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'selection_notifier.dart';
 
 class SnakeItemTile extends StatelessWidget {
@@ -33,6 +32,7 @@ class SnakeItemTile extends StatelessWidget {
       child: GestureDetector(
         onTap: () => notifier.selectIndex(position),
         child: Container(
+          color: Colors.transparent,
           width: double.infinity,
           height: double.infinity,
           child: Center(
@@ -41,9 +41,13 @@ class SnakeItemTile extends StatelessWidget {
                 if (selectedLabelVisible && unselectedLabelVisible) {
                   return _getLabeledItem(isSelected);
                 } else if (selectedLabelVisible) {
-                  return isSelected ? _getLabeledItem(isSelected) : _getThemedIcon(isSelected);
+                  return isSelected
+                      ? _getLabeledItem(isSelected)
+                      : _getThemedIcon(isSelected);
                 } else if (unselectedLabelVisible) {
-                  return isSelected ? _getThemedIcon(isSelected) : _getLabeledItem(isSelected);
+                  return isSelected
+                      ? _getThemedIcon(isSelected)
+                      : _getLabeledItem(isSelected);
                 } else {
                   return _getThemedIcon(isSelected);
                 }
@@ -58,7 +62,7 @@ class SnakeItemTile extends StatelessWidget {
   Widget _getLabeledItem(isSelected) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         _getThemedIcon(isSelected),
         SizedBox(height: 1),
         _getThemedTitle(isSelected),
@@ -67,29 +71,34 @@ class SnakeItemTile extends StatelessWidget {
   }
 
   Widget _getThemedTitle(isSelected) {
-    return selectionStyle == SelectionStyle.color
-        ? DefaultTextStyle.merge(
-            style: TextStyle(color: isSelected ? selectedColor : unSelectedColor),
-            child: label,
-          )
-        : DefaultTextStyle.merge(
-            style: TextStyle(color: unSelectedColor.withOpacity(isSelected ? 1 : 0.6)),
-            child: label,
-          );
+    return DefaultTextStyle.merge(
+      style: selectionStyle == SelectionStyle.color
+          ? TextStyle(
+              color: isSelected ? selectedColor : unSelectedColor,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)
+          : TextStyle(
+              color: unSelectedColor.withOpacity(isSelected ? 1 : 0.6),
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
+      child: label,
+    );
   }
 
   Widget _getThemedIcon(isSelected) {
     return selectionStyle == SelectionStyle.color
         ? IconTheme(
-            data: IconThemeData(color: isSelected ? selectedColor : unSelectedColor),
+            data: IconThemeData(
+                color: isSelected ? selectedColor : unSelectedColor),
             child: icon,
           )
         : IconTheme(
-            data: IconThemeData(color: unSelectedColor, opacity: isSelected ? 1 : 0.6),
+            data: IconThemeData(
+                color: unSelectedColor, opacity: isSelected ? 1 : 0.6),
             child: icon,
           );
   }
 }
 
-enum SelectionStyle { color, opacity }
-
+enum SelectionStyle {
+  color,
+  opacity,
+}

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/src/snake_shape.dart';
 
 import 'selection_notifier.dart';
+import 'snake_bar_style.dart';
 import 'snake_item_tile.dart';
 import 'snake_view.dart';
 
@@ -31,6 +32,9 @@ class SnakeNavigationBar extends StatelessWidget {
   /// The index into [items] for the current active [BottomNavigationBarItem].
   final int currentIndex;
 
+  ///You can specify custom elevation shadow color
+  final Color shadowColor;
+
   /// Defines the [SnakeView] shape and behavior of a [SnakeNavigationBar].
   ///
   /// See documentation for [SnakeShape] for information on the
@@ -48,23 +52,20 @@ class SnakeNavigationBar extends StatelessWidget {
   final SnakeBarStyle style;
 
   /// You can define custom [ShapeBorder] with padding and elevation to [SnakeNavigationBar]
-  ///
-  /// IMPORTANT You can use custom shape only with [SnakeBarStyle.floating]
   final ShapeBorder shape;
   final EdgeInsets padding;
   final double elevation;
 
-  /// Called when one of the [items] is tapped.
-  final ValueChanged<int> onTap;
+  /// Called when one of the [items] is pressed.
+  final ValueChanged<int> onPositionChanged;
 
-
-  final SelectionNotifier notifier;
+  final SelectionNotifier _notifier;
 
   SnakeNavigationBar({
-    Color selectionColor,
+    Color snakeColor,
     Color selectedIconColor,
 
-    /// if [SnakeShapeType] is [SnakeShapeType.circle]  showSelectedLabels will be always false
+    /// if [SnakeShapeType] is [SnakeShapeType.circle] showSelectedLabels will be always false
     bool showSelectedLabels = false,
     this.showUnselectedLabels = false,
     this.items,
@@ -73,13 +74,17 @@ class SnakeNavigationBar extends StatelessWidget {
     this.shape,
     this.padding = EdgeInsets.zero,
     this.elevation = 0,
-    this.onTap,
+    this.onPositionChanged,
     this.style = SnakeBarStyle.pinned,
     this.snakeShape = SnakeShape.circle,
-  })  : selectedTintColor = selectionColor ?? Colors.white,
-        selectedIconTintColor = selectedIconColor ?? backgroundColor ?? Colors.white,
-        notifier = SelectionNotifier(currentIndex, onTap),
-        showSelectedLabels = (snakeShape.type == SnakeShapeType.circle && showSelectedLabels) ? false : showSelectedLabels;
+    this.shadowColor = Colors.black,
+  })  : selectedTintColor = snakeColor,
+        selectedIconTintColor = selectedIconColor ?? backgroundColor,
+        _notifier = SelectionNotifier(currentIndex, onPositionChanged),
+        showSelectedLabels =
+            (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
+                ? false
+                : showSelectedLabels;
 
   @override
   Widget build(BuildContext context) {
@@ -90,49 +95,64 @@ class SnakeNavigationBar extends StatelessWidget {
               showSelectedLabels,
               showUnselectedLabels,
               items.indexOf(item),
-              selectedIconTintColor,
+              selectedIconTintColor ??
+                  Theme.of(context).bottomAppBarTheme.color ??
+                  Theme.of(context).bottomAppBarColor,
               selectedTintColor,
-              notifier,
-              snakeShape.type == SnakeShapeType.indicator ? SelectionStyle.opacity : SelectionStyle.color,
+              _notifier,
+              snakeShape.type == SnakeShapeType.indicator
+                  ? SelectionStyle.opacity
+                  : SelectionStyle.color,
             ))
         .toList();
 
-    return Container(
+    return AnimatedPadding(
       padding: padding,
-      color: style == SnakeBarStyle.floating ? null : backgroundColor,
-      child: SafeArea(
-        child: Material(
-          elevation: elevation,
-          clipBehavior: Clip.antiAlias,
-          color: backgroundColor,
-          shape: shape,
-          child: SizedBox(
-            height: kBottomNavigationBarHeight,
-            child: Stack(children: [
-              SnakeView(
-                itemsCount: items.length,
-                shape: snakeShape,
-                showSelectedLabels: showSelectedLabels,
-                widgetEdgePadding: padding.left + padding.right,
-                snakeColor: selectedTintColor,
-                notifier: notifier,
+      duration: kThemeChangeDuration,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          SafeArea(
+            left: false,
+            right: false,
+            child: Material(
+              shadowColor: shadowColor,
+              elevation: elevation,
+              clipBehavior: Clip.antiAlias,
+              color: backgroundColor ??
+                  Theme.of(context).bottomAppBarTheme.color ??
+                  Theme.of(context).bottomAppBarColor,
+              shape: shape,
+              child: SizedBox(
+                height: kBottomNavigationBarHeight,
+                child: Stack(
+                  children: [
+                    SnakeView(
+                      itemsCount: items.length,
+                      shape: snakeShape,
+                      showSelectedLabels: showSelectedLabels,
+                      widgetEdgePadding: padding.left + padding.right,
+                      snakeColor:
+                          selectedTintColor ?? Theme.of(context).accentColor,
+                      notifier: _notifier,
+                    ),
+                    Row(children: tiles),
+                  ],
+                ),
               ),
-              Row(children: tiles),
-            ]),
+            ),
           ),
-        ),
+          AnimatedContainer(
+            height: style == SnakeBarStyle.pinned
+                ? MediaQuery.of(context).padding.bottom
+                : 0,
+            color: backgroundColor ??
+                Theme.of(context).bottomAppBarTheme.color ??
+                Theme.of(context).bottomAppBarColor,
+            duration: kThemeChangeDuration,
+          ),
+        ],
       ),
     );
   }
-}
-
-
-enum SnakeBarStyle {
-  /// use [SnakeBarStyle.floating] style if you want to
-  /// separate [SnakeNavigationBar] from bottom side
-  floating,
-
-  /// [SnakeBarStyle.pinned] is default [SnakeNavigationBar] style
-  /// which is pinned to bottom side
-  pinned
 }

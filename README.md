@@ -6,8 +6,7 @@ A new Flutter SnakeNavigationBar widget package.
 
 ## Preview
 
-<img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview.gif" height="500em"><img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview1.gif" height="500em"><img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview2.gif" height="500em">
-<img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview3.gif" height="500em"><img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview4.gif" height="500em">
+<img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview.gif" height="500em">
 
 ## Usage
 
@@ -31,52 +30,56 @@ SnakeNavigationBar has a similar API to BottomNavigationBar and uses BottomNavig
 ``` 
 
 ```dart
-      final List<BottomNavigationBarItem> items;
+   final List<BottomNavigationBarItem> items;
 
-      /// If [SnakeBarStyle.floating] this color is
-      /// used as background color of shaped view.
-      /// If [SnakeBarStyle.pinned] this color just
-      /// a background color of [SnakeNavigationBar] view
-      final Color backgroundColor;
-    
-      /// This color represents a SnakeView , 
-      /// unselected icons and labels color
-      final Color selectedTintColor;
-    
-      ///You can customize color for selected icon and label
-      final Color selectedIconTintColor;
-    
-      /// Whether the labels are shown for the selected [BottomNavigationBarItem].
-      final bool showSelectedLabels;
-    
-      /// Whether the labels are shown for the unselected [BottomNavigationBarItem].
-      final bool showUnselectedLabels;
-    
-      /// The index into [items] for the current active [BottomNavigationBarItem].
-      final int currentIndex;
-    
-      /// Defines the [SnakeView] shape and behavior of a [SnakeNavigationBar].
-      ///
-      /// Default is [SnakeShape.circle]
-      final SnakeShape snakeShape;
-    
-      /// Defines the layout and behavior of a [SnakeNavigationBar].
-      ///
-      /// See documentation for [SnakeBarStyle] for information on the
-      /// meaning of different styles.
-      ///
-      /// Default is [SnakeBarStyle.pinned]
-      final SnakeBarStyle style;
-    
-      /// You can define custom [ShapeBorder] with padding and elevation to [SnakeNavigationBar]
-      ///
-      /// IMPORTANT You can use custom shape only with [SnakeBarStyle.floating]
-      final ShapeBorder shape;
-      final EdgeInsets padding;
-      final double elevation;
-    
-      /// Called when one of the [items] is tapped.
-      final ValueChanged<int> onTap;
+  /// If [SnakeBarStyle.floating] this color is
+  /// used as background color of shaped view.
+  /// If [SnakeBarStyle.pinned] this color just
+  /// a background color of whole [SnakeNavigationBar] view
+  final Color backgroundColor;
+
+  /// This color represents a SnakeView and unselected
+  /// Icon and label color
+  final Color selectedTintColor;
+
+  ///You can setup custom color for selected Icon and label
+  final Color selectedIconTintColor;
+
+  /// Whether the labels are shown for the selected [BottomNavigationBarItem].
+  final bool showSelectedLabels;
+
+  /// Whether the labels are shown for the selected [BottomNavigationBarItem].
+  final bool showUnselectedLabels;
+
+  /// The index into [items] for the current active [BottomNavigationBarItem].
+  final int currentIndex;
+
+  ///You can specify custom elevation shadow color
+  final Color shadowColor;
+
+  /// Defines the [SnakeView] shape and behavior of a [SnakeNavigationBar].
+  ///
+  /// See documentation for [SnakeShape] for information on the
+  /// meaning of different shapes.
+  ///
+  /// Default is [SnakeShape.circle]
+  final SnakeShape snakeShape;
+
+  /// Defines the layout and behavior of a [SnakeNavigationBar].
+  ///
+  /// See documentation for [SnakeBarStyle] for information on the
+  /// meaning of different styles.
+  ///
+  /// Default is [SnakeBarStyle.pinned]
+  final SnakeBarStyle style;
+
+  /// You can define custom [ShapeBorder] with padding and elevation to [SnakeNavigationBar]
+  final ShapeBorder shape;
+  final EdgeInsets padding;
+  final double elevation;
+
+  /// Called when one of the [items] is tapped.
+  final ValueChanged<int> onPositionChanged;
 ```
 
 
