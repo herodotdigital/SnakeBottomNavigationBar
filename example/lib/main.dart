@@ -75,25 +75,25 @@ class _SnakeNavigationBarExampleScreenState
             PagerPageWidget(
               text: 'This is our beloved SnakeBar.',
               description: 'Swipe right to see different styles',
-              image: Image.asset('images/SwingingDoodle.png'),
+              image: Image.asset('images/flutter1.png'),
             ),
             PagerPageWidget(
               text: 'It comes in all shapes and sizes...',
               description:
                   'Change indicator and bottom bar shape at your will.',
-              image: Image.asset('images/MessyDoodle.png'),
+              image: Image.asset('images/flutter2.png'),
             ),
             PagerPageWidget(
               text: '...not only the ones you see here',
               description:
                   'Combine different shapes for unique and personalized style!.',
-              image: Image.asset('images/PettingDoodle.png'),
+              image: Image.asset('images/flutter3.png'),
             ),
             PagerPageWidget(
               text: 'And it\'s all open source!',
               description:
                   'Get the Flutter library on github.com/herodotdigital',
-              image: Image.asset('images/ZombieingDoodle.png'),
+              image: Image.asset('images/flutter4.png'),
             ),
           ],
         ),

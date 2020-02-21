@@ -21,10 +21,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/SwingingDoodle.png
-    - images/MessyDoodle.png
-    - images/PettingDoodle.png
-    - images/ZombieingDoodle.png
+    - images/
 
   fonts:
     - family: SourceSerifPro
