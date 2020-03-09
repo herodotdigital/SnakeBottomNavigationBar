@@ -5,3 +5,5 @@
 ## [0.2.0] - Updated Readme.md.
 
 ## [0.3.0] - Fixed orientation change issue and added SnakeBar shaping in pinned mode.
+
+## [0.4.0] - Added gradient support.
