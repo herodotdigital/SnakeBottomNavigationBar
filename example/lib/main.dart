@@ -44,11 +44,19 @@ class _SnakeNavigationBarExampleScreenState
   double elevation = 0;
   bool showSelectedLabels = false;
   bool showUnselectedLabels = false;
-  Color selectedItemColor = Colors.white;
+
+  Color backgroundColor = Colors.white;
   Color selectionColor = Colors.black;
+
+  Gradient backgroundGradient =
+      const LinearGradient(colors: [Colors.black, Colors.lightBlue]);
+  Gradient selectionGradient =
+      const LinearGradient(colors: [Colors.white, Colors.amber]);
+
   EdgeInsets padding = EdgeInsets.all(12);
   Color containerColor = Color(0xFFFDE1D7);
-  TextStyle labelTextStyle = TextStyle(fontSize: 11, fontFamily: 'Ubuntu');
+  TextStyle labelTextStyle = TextStyle(
+      fontSize: 11, fontFamily: 'Ubuntu', fontWeight: FontWeight.bold);
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +109,12 @@ class _SnakeNavigationBarExampleScreenState
       bottomNavigationBar: SnakeNavigationBar(
         style: snakeBarStyle,
         snakeShape: snakeShape,
-        selectedIconColor: selectedItemColor,
-        snakeColor: selectionColor,
+        snakeColor: selectionColor, //comment if you want to see colors
+        backgroundColor: backgroundColor, //comment if you want to see colors
+//        snakeGradient:
+//            selectionGradient, //uncomment if you want to see gradients
+//        backgroundGradient:
+//            backgroundGradient, //uncomment if you want to see gradients
         showUnselectedLabels: showUnselectedLabels,
         showSelectedLabels: showSelectedLabels,
         shape: bottomBarShape,
