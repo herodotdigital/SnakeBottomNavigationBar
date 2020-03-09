@@ -7,8 +7,8 @@ class SnakeItemTile extends StatelessWidget {
   final bool selectedLabelVisible;
   final bool unselectedLabelVisible;
   final int position;
-  final Color selectedColor;
-  final Color unSelectedColor;
+  final Gradient selectedGradient;
+  final Gradient unSelectedGradient;
   final SelectionNotifier notifier;
   final SelectionStyle selectionStyle;
 
@@ -18,8 +18,8 @@ class SnakeItemTile extends StatelessWidget {
     this.selectedLabelVisible,
     this.unselectedLabelVisible,
     this.position,
-    this.selectedColor,
-    this.unSelectedColor,
+    this.selectedGradient,
+    this.unSelectedGradient,
     this.notifier,
     this.selectionStyle,
   );
@@ -71,29 +71,44 @@ class SnakeItemTile extends StatelessWidget {
   }
 
   Widget _getThemedTitle(isSelected) {
-    return DefaultTextStyle.merge(
-      style: selectionStyle == SelectionStyle.color
-          ? TextStyle(
-              color: isSelected ? selectedColor : unSelectedColor,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)
-          : TextStyle(
-              color: unSelectedColor.withOpacity(isSelected ? 1 : 0.6),
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
-      child: label,
-    );
+    return selectionStyle == SelectionStyle.color
+        ? ShaderMask(
+            child: DefaultTextStyle.merge(
+                child: label, style: TextStyle(color: Colors.white)),
+            shaderCallback: (bounds) => (isSelected
+                    ? selectedGradient
+                    : unSelectedGradient)
+                .createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+          )
+        : Opacity(
+            opacity: isSelected ? 1 : 0.6,
+            child: ShaderMask(
+                child: label,
+                shaderCallback: (bounds) =>
+                    (isSelected ? selectedGradient : unSelectedGradient)
+                        .createShader(
+                            Rect.fromLTWH(0, 0, bounds.width, bounds.height))),
+          );
   }
 
   Widget _getThemedIcon(isSelected) {
     return selectionStyle == SelectionStyle.color
-        ? IconTheme(
-            data: IconThemeData(
-                color: isSelected ? selectedColor : unSelectedColor),
+        ? ShaderMask(
+            blendMode: BlendMode.srcIn,
             child: icon,
+            shaderCallback: (Rect bounds) => (isSelected
+                    ? selectedGradient
+                    : unSelectedGradient)
+                .createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
           )
-        : IconTheme(
-            data: IconThemeData(
-                color: unSelectedColor, opacity: isSelected ? 1 : 0.6),
-            child: icon,
+        : Opacity(
+            opacity: isSelected ? 1 : 0.6,
+            child: ShaderMask(
+              blendMode: BlendMode.srcIn,
+              child: icon,
+              shaderCallback: (Rect bounds) => unSelectedGradient.createShader(
+                  Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+            ),
           );
   }
 }

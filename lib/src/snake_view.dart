@@ -5,7 +5,7 @@ import 'selection_notifier.dart';
 class SnakeView extends StatefulWidget {
   final int itemsCount;
   final SnakeShape shape;
-  final Color snakeColor;
+  final Gradient snakeColor;
   final double widgetEdgePadding;
   final SelectionNotifier notifier;
   final Duration animationDuration;
@@ -116,7 +116,12 @@ class _SnakeViewState extends State<SnakeView> {
           duration: widget.animationDuration,
           width: snakeViewWidth,
           height: _snakeViewHeight(),
-          child: Material(shape: _snakeShape(), color: widget.snakeColor),
+          child: Material(
+            shape: _snakeShape(),
+            clipBehavior: Clip.antiAlias,
+            child: Container(
+                decoration: BoxDecoration(gradient: widget.snakeColor)),
+          ),
         ),
       ),
     );

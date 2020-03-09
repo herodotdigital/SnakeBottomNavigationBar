@@ -14,14 +14,11 @@ class SnakeNavigationBar extends StatelessWidget {
   /// used as background color of shaped view.
   /// If [SnakeBarStyle.pinned] this color just
   /// a background color of whole [SnakeNavigationBar] view
-  final Color backgroundColor;
+  final Gradient backgroundGradient;
 
   /// This color represents a SnakeView and unselected
   /// Icon and label color
-  final Color selectedTintColor;
-
-  ///You can setup custom color for selected Icon and label
-  final Color selectedIconTintColor;
+  final Gradient selectedColor;
 
   /// Whether the labels are shown for the selected [BottomNavigationBarItem].
   final bool showSelectedLabels;
@@ -63,13 +60,12 @@ class SnakeNavigationBar extends StatelessWidget {
 
   SnakeNavigationBar({
     Color snakeColor,
-    Color selectedIconColor,
-
-    /// if [SnakeShapeType] is [SnakeShapeType.circle] showSelectedLabels will be always false
+    Gradient snakeGradient,
+    Color backgroundColor,
+    Gradient backgroundGradient,
     bool showSelectedLabels = false,
     this.showUnselectedLabels = false,
     this.items,
-    this.backgroundColor,
     this.currentIndex = 0,
     this.shape,
     this.padding = EdgeInsets.zero,
@@ -78,8 +74,22 @@ class SnakeNavigationBar extends StatelessWidget {
     this.style = SnakeBarStyle.pinned,
     this.snakeShape = SnakeShape.circle,
     this.shadowColor = Colors.black,
-  })  : selectedTintColor = snakeColor,
-        selectedIconTintColor = selectedIconColor ?? backgroundColor,
+  })  : assert((snakeGradient == null && snakeColor != null) ||
+            (snakeGradient != null && snakeColor == null) ||
+            (snakeGradient == null && snakeColor == null)),
+        assert((backgroundColor == null && backgroundGradient != null) ||
+            (backgroundColor != null && backgroundGradient == null) ||
+            (backgroundColor == null && backgroundGradient == null)),
+        this.backgroundGradient = backgroundGradient ??
+            LinearGradient(colors: [
+              backgroundColor ?? Colors.white,
+              backgroundColor ?? Colors.white
+            ]),
+        selectedColor = snakeGradient ??
+            LinearGradient(colors: [
+              snakeColor ?? Colors.black,
+              snakeColor ?? Colors.black
+            ]),
         _notifier = SelectionNotifier(currentIndex, onPositionChanged),
         showSelectedLabels =
             (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
@@ -95,10 +105,8 @@ class SnakeNavigationBar extends StatelessWidget {
               showSelectedLabels,
               showUnselectedLabels,
               items.indexOf(item),
-              selectedIconTintColor ??
-                  Theme.of(context).bottomAppBarTheme.color ??
-                  Theme.of(context).bottomAppBarColor,
-              selectedTintColor,
+              backgroundGradient,
+              selectedColor,
               _notifier,
               snakeShape.type == SnakeShapeType.indicator
                   ? SelectionStyle.opacity
@@ -119,11 +127,9 @@ class SnakeNavigationBar extends StatelessWidget {
               shadowColor: shadowColor,
               elevation: elevation,
               clipBehavior: Clip.antiAlias,
-              color: backgroundColor ??
-                  Theme.of(context).bottomAppBarTheme.color ??
-                  Theme.of(context).bottomAppBarColor,
               shape: shape,
-              child: SizedBox(
+              child: Container(
+                decoration: BoxDecoration(gradient: backgroundGradient),
                 height: kBottomNavigationBarHeight,
                 child: Stack(
                   children: [
@@ -132,8 +138,7 @@ class SnakeNavigationBar extends StatelessWidget {
                       shape: snakeShape,
                       showSelectedLabels: showSelectedLabels,
                       widgetEdgePadding: padding.left + padding.right,
-                      snakeColor:
-                          selectedTintColor ?? Theme.of(context).accentColor,
+                      snakeColor: selectedColor,
                       notifier: _notifier,
                     ),
                     Row(children: tiles),
@@ -146,9 +151,7 @@ class SnakeNavigationBar extends StatelessWidget {
             height: style == SnakeBarStyle.pinned
                 ? MediaQuery.of(context).padding.bottom
                 : 0,
-            color: backgroundColor ??
-                Theme.of(context).bottomAppBarTheme.color ??
-                Theme.of(context).bottomAppBarColor,
+            decoration: BoxDecoration(gradient: backgroundGradient),
             duration: kThemeChangeDuration,
           ),
         ],

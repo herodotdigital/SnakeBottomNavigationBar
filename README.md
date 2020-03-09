@@ -19,31 +19,47 @@ SnakeNavigationBar has a similar API to BottomNavigationBar and uses BottomNavig
 ```
      Scaffold(
       bottomNavigationBar: SnakeNavigationBar(
+        style: snakeBarStyle,
+        snakeShape: snakeShape,
+        snakeColor: selectionColor,
+        backgroundColor: backgroundColor,
+        showUnselectedLabels: showUnselectedLabels,
+        showSelectedLabels: showSelectedLabels,
+        shape: bottomBarShape,
+        padding: padding,
+        currentIndex: _selectedItemPosition,
+        onPositionChanged: (index) =>
+            setState(() => _selectedItemPosition = index),
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('tickets')),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), title: Text('calendar')),
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('home')),
-          BottomNavigationBarItem(icon: Icon(Icons.mic), title: Text('microphone')),
-          BottomNavigationBarItem(icon: Icon(Icons.search), title: Text('search'))
+          BottomNavigationBarItem(
+              icon: Icon(CustomIcons.tickets),
+              title: Text('tickets', style: labelTextStyle)),
+          BottomNavigationBarItem(
+              icon: Icon(CustomIcons.calendar),
+              title: Text('calendar', style: labelTextStyle)),
+          BottomNavigationBarItem(
+              icon: Icon(CustomIcons.home),
+              title: Text('home', style: labelTextStyle)),
+          BottomNavigationBarItem(
+              icon: Icon(CustomIcons.podcasts),
+              title: Text('microphone', style: labelTextStyle)),
+          BottomNavigationBarItem(
+              icon: Icon(CustomIcons.search),
+              title: Text('search', style: labelTextStyle))
         ],
       ),
 ``` 
 
 ```dart
-   final List<BottomNavigationBarItem> items;
-
-  /// If [SnakeBarStyle.floating] this color is
+    /// If [SnakeBarStyle.floating] this color is
   /// used as background color of shaped view.
   /// If [SnakeBarStyle.pinned] this color just
   /// a background color of whole [SnakeNavigationBar] view
-  final Color backgroundColor;
+  final Gradient backgroundGradient;
 
   /// This color represents a SnakeView and unselected
   /// Icon and label color
-  final Color selectedTintColor;
-
-  ///You can setup custom color for selected Icon and label
-  final Color selectedIconTintColor;
+  final Gradient selectedColor;
 
   /// Whether the labels are shown for the selected [BottomNavigationBarItem].
   final bool showSelectedLabels;
@@ -77,9 +93,6 @@ SnakeNavigationBar has a similar API to BottomNavigationBar and uses BottomNavig
   final ShapeBorder shape;
   final EdgeInsets padding;
   final double elevation;
-
-  /// Called when one of the [items] is tapped.
-  final ValueChanged<int> onPositionChanged;
 ```
 
 
