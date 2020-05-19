@@ -117,6 +117,8 @@ class _SnakeNavigationBarExampleScreenState
 //            backgroundGradient, //uncomment if you want to see gradients
         showUnselectedLabels: showUnselectedLabels,
         showSelectedLabels: showSelectedLabels,
+//        selectedItemColor: Colors.amber,
+//        selectedItemGradient: LinearGradient(colors: [Colors.red,Colors.amber]),
         shape: bottomBarShape,
         padding: padding,
         currentIndex: _selectedItemPosition,

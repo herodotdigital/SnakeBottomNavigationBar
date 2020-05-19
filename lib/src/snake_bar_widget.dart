@@ -18,7 +18,10 @@ class SnakeNavigationBar extends StatelessWidget {
 
   /// This color represents a SnakeView and unselected
   /// Icon and label color
-  final Gradient selectedColor;
+  final Gradient snakeViewColor;
+
+  /// This color represents a selected Icon color
+  final Gradient selectedIconColor;
 
   /// Whether the labels are shown for the selected [BottomNavigationBarItem].
   final bool showSelectedLabels;
@@ -74,24 +77,25 @@ class SnakeNavigationBar extends StatelessWidget {
     this.style = SnakeBarStyle.pinned,
     this.snakeShape = SnakeShape.circle,
     this.shadowColor = Colors.black,
+    Color selectedItemColor,
+    LinearGradient selectedItemGradient,
   })  : assert((snakeGradient == null && snakeColor != null) ||
             (snakeGradient != null && snakeColor == null) ||
             (snakeGradient == null && snakeColor == null)),
         assert((backgroundColor == null && backgroundGradient != null) ||
             (backgroundColor != null && backgroundGradient == null) ||
             (backgroundColor == null && backgroundGradient == null)),
-        this.backgroundGradient = backgroundGradient ??
-            LinearGradient(colors: [
-              backgroundColor ?? Colors.white,
-              backgroundColor ?? Colors.white
-            ]),
-        selectedColor = snakeGradient ??
-            LinearGradient(colors: [
-              snakeColor ?? Colors.black,
-              snakeColor ?? Colors.black
-            ]),
-        _notifier = SelectionNotifier(currentIndex, onPositionChanged),
-        showSelectedLabels =
+        assert((selectedItemColor == null && selectedItemGradient != null) ||
+            (selectedItemColor != null && selectedItemGradient == null) ||
+            (selectedItemColor == null && selectedItemGradient == null)),
+        this.backgroundGradient =
+            backgroundGradient ?? toGradient(backgroundColor ?? Colors.white),
+        this.snakeViewColor =
+            snakeGradient ?? toGradient(snakeColor ?? Colors.black),
+        this.selectedIconColor = selectedItemGradient ??
+            (selectedItemColor != null ? toGradient(selectedItemColor) : null),
+        this._notifier = SelectionNotifier(currentIndex, onPositionChanged),
+        this.showSelectedLabels =
             (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
                 ? false
                 : showSelectedLabels;
@@ -105,8 +109,8 @@ class SnakeNavigationBar extends StatelessWidget {
               showSelectedLabels,
               showUnselectedLabels,
               items.indexOf(item),
-              backgroundGradient,
-              selectedColor,
+              selectedIconColor ?? backgroundGradient,
+              snakeViewColor,
               _notifier,
               snakeShape.type == SnakeShapeType.indicator
                   ? SelectionStyle.opacity
@@ -138,7 +142,7 @@ class SnakeNavigationBar extends StatelessWidget {
                       shape: snakeShape,
                       showSelectedLabels: showSelectedLabels,
                       widgetEdgePadding: padding.left + padding.right,
-                      snakeColor: selectedColor,
+                      snakeColor: snakeViewColor,
                       notifier: _notifier,
                     ),
                     Row(children: tiles),
@@ -158,4 +162,7 @@ class SnakeNavigationBar extends StatelessWidget {
       ),
     );
   }
+
+  static Gradient toGradient(Color color) =>
+      LinearGradient(colors: [color, color]);
 }
