@@ -1,119 +1,107 @@
 import 'package:flutter/material.dart';
 import 'selection_notifier.dart';
+import 'theming/selection_style.dart';
+import 'theming/snake_bottom_bar_theme.dart';
+import 'utils/extensions.dart';
 
 class SnakeItemTile extends StatelessWidget {
   final Widget icon;
-  final Widget label;
-  final bool selectedLabelVisible;
-  final bool unselectedLabelVisible;
+  final String label;
   final int position;
-  final Gradient selectedGradient;
-  final Gradient unSelectedGradient;
   final SelectionNotifier notifier;
   final SelectionStyle selectionStyle;
+  final bool isIndicatorStyle;
 
   SnakeItemTile(
     this.icon,
     this.label,
-    this.selectedLabelVisible,
-    this.unselectedLabelVisible,
     this.position,
-    this.selectedGradient,
-    this.unSelectedGradient,
     this.notifier,
     this.selectionStyle,
+    this.isIndicatorStyle,
   );
+
+  bool get isSelected => notifier.currentIndex == position;
 
   @override
   Widget build(BuildContext context) {
-    final bool isSelected = notifier.currentIndex == position;
+    var theme = SnakeBottomBarTheme.of(context);
 
     return Expanded(
       child: GestureDetector(
         onTap: () => notifier.selectIndex(position),
-        child: Container(
-          color: Colors.transparent,
-          width: double.infinity,
-          height: double.infinity,
-          child: Center(
-            child: LayoutBuilder(
-              builder: (context, constraint) {
-                if (selectedLabelVisible && unselectedLabelVisible) {
-                  return _getLabeledItem(isSelected);
-                } else if (selectedLabelVisible) {
-                  return isSelected
-                      ? _getLabeledItem(isSelected)
-                      : _getThemedIcon(isSelected);
-                } else if (unselectedLabelVisible) {
-                  return isSelected
-                      ? _getThemedIcon(isSelected)
-                      : _getLabeledItem(isSelected);
-                } else {
-                  return _getThemedIcon(isSelected);
-                }
-              },
-            ),
+        child: Center(
+          child: LayoutBuilder(
+            builder: (context, constraint) {
+              if (theme.showSelectedLabels && theme.showUnselectedLabels)
+                return _getLabeledItem(theme);
+              else if (theme.showSelectedLabels)
+                return isSelected ? _getLabeledItem(theme) : _getThemedIcon(theme);
+              else if (theme.showUnselectedLabels)
+                return isSelected ? _getThemedIcon(theme) : _getLabeledItem(theme);
+              else
+                return _getThemedIcon(theme);
+            },
           ),
         ),
       ),
     );
   }
 
-  Widget _getLabeledItem(isSelected) {
+  Widget _getLabeledItem(SnakeBottomBarThemeData theme) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _getThemedIcon(isSelected),
+        _getThemedIcon(theme),
         SizedBox(height: 1),
-        _getThemedTitle(isSelected),
+        _getThemedTitle(theme),
       ],
     );
   }
 
-  Widget _getThemedTitle(isSelected) {
-    return selectionStyle == SelectionStyle.color
+  Widget _getThemedTitle(SnakeBottomBarThemeData theme) {
+    var labelWidget = selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
-            child: DefaultTextStyle.merge(
-                child: label, style: TextStyle(color: Colors.white)),
-            shaderCallback: (bounds) => (isSelected
-                    ? selectedGradient
-                    : unSelectedGradient)
-                .createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+            child: Text(label, style: TextStyle(color: Colors.white)),
+            shaderCallback: (isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient)
+                .defaultShader,
           )
-        : Opacity(
+        : Text(label,
+            style: TextStyle(
+              color: (isSelected
+                  ? theme.selectedItemGradient.colors.first
+                  : theme.unselectedItemGradient.colors.first),
+            ));
+
+    return isIndicatorStyle
+        ? Opacity(
             opacity: isSelected ? 1 : 0.6,
-            child: ShaderMask(
-                child: label,
-                shaderCallback: (bounds) =>
-                    (isSelected ? selectedGradient : unSelectedGradient)
-                        .createShader(
-                            Rect.fromLTWH(0, 0, bounds.width, bounds.height))),
-          );
+            child: labelWidget,
+          )
+        : labelWidget;
   }
 
-  Widget _getThemedIcon(isSelected) {
-    return selectionStyle == SelectionStyle.color
+  Widget _getThemedIcon(SnakeBottomBarThemeData theme) {
+    var iconWidget = selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
             blendMode: BlendMode.srcIn,
             child: icon,
-            shaderCallback: (Rect bounds) => (isSelected
-                    ? selectedGradient
-                    : unSelectedGradient)
-                .createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+            shaderCallback: (isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient)
+                .defaultShader,
           )
-        : Opacity(
-            opacity: isSelected ? 1 : 0.6,
-            child: ShaderMask(
-              blendMode: BlendMode.srcIn,
-              child: icon,
-              shaderCallback: (Rect bounds) => unSelectedGradient.createShader(
-                  Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+        : IconTheme(
+            data: IconThemeData(
+              color: (isSelected
+                  ? theme.selectedItemGradient.colors.first
+                  : theme.unselectedItemGradient.colors.first),
             ),
+            child: icon,
           );
+    return isIndicatorStyle
+        ? Opacity(
+            opacity: isSelected ? 1 : 0.6,
+            child: iconWidget,
+          )
+        : iconWidget;
   }
-}
-
-enum SelectionStyle {
-  color,
-  opacity,
 }

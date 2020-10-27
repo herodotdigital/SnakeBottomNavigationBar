@@ -9,3 +9,5 @@
 ## [0.4.0] - Added gradient support.
 
 ## [0.4.0+1] - Fixed selectedIconColor.
+
+## [0.4.1] - Separated colors and gradient functionality.

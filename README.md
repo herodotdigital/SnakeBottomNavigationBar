@@ -4,6 +4,15 @@
 
 A new Flutter SnakeNavigationBar widget package.
 
+### BREAKING CHANGES
+To separate colors and gradient logic now you have *SnakeNavigationBar.color* and *SnakeNavigationBar.gradient* constructors. 
+Changes naming:
+    style => behaviour,
+    snakeColor => snakeViewColor (snakeViewGradient in gradient configuration),
+    onPositionChanged => onTap
+
+Added *selectedItemColor* and *unselectedItemColor* (*selectedItemGradient* and *unselectedItemGradient* in gradient configuration)
+
 ## Preview
 
 <img src="https://raw.githubusercontent.com/AllinMobile/SnakeBottomNavigationBar/master/preview/preview.gif" height="500em">
@@ -12,54 +21,60 @@ A new Flutter SnakeNavigationBar widget package.
 
 To use this plugin, add flutter_snake_navigationbar as a dependency in your [pubspec.yaml](https://flutter.io/using-packages/) file.
 
-
 ## Properties
 
 SnakeNavigationBar has a similar API to BottomNavigationBar and uses BottomNavigationBarItem to show items as well.
 ```
      Scaffold(
-      bottomNavigationBar: SnakeNavigationBar(
-        style: snakeBarStyle,
+      bottomNavigationBar: SnakeNavigationBar.color(
+        behaviour: snakeBarStyle,
         snakeShape: snakeShape,
-        snakeColor: selectionColor,
-        backgroundColor: backgroundColor,
-        showUnselectedLabels: showUnselectedLabels,
-        showSelectedLabels: showSelectedLabels,
         shape: bottomBarShape,
         padding: padding,
+
+        ///configuration for SnakeNavigationBar.color
+        snakeViewColor: selectedColor,
+        selectedItemColor: snakeShape == SnakeShape.indicator ? selectedColor : null,
+        unselectedItemColor: Colors.blueGrey,
+
+        ///configuration for SnakeNavigationBar.gradient
+        //snakeViewGradient: selectedGradient,
+        //selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
+        //unselectedItemGradient: unselectedGradient,
+
+        showUnselectedLabels: showUnselectedLabels,
+        showSelectedLabels: showSelectedLabels,
+
         currentIndex: _selectedItemPosition,
-        onPositionChanged: (index) =>
-            setState(() => _selectedItemPosition = index),
+        onTap: (index) => setState(() => _selectedItemPosition = index),
         items: [
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.tickets),
-              title: Text('tickets', style: labelTextStyle)),
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.calendar),
-              title: Text('calendar', style: labelTextStyle)),
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.home),
-              title: Text('home', style: labelTextStyle)),
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.podcasts),
-              title: Text('microphone', style: labelTextStyle)),
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.search),
-              title: Text('search', style: labelTextStyle))
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'tickets'),
+          BottomNavigationBarItem(icon: Icon(CustomIcons.calendar), label: 'calendar'),
+          BottomNavigationBarItem(icon: Icon(CustomIcons.home), label: 'home'),
+          BottomNavigationBarItem(icon: Icon(CustomIcons.podcasts), label: 'microphone'),
+          BottomNavigationBarItem(icon: Icon(CustomIcons.search), label: 'search')
         ],
       ),
 ``` 
 
 ```dart
-    /// If [SnakeBarStyle.floating] this color is
+   final List<BottomNavigationBarItem> items;
+
+  /// If [SnakeBarBehaviour.floating] this color is
   /// used as background color of shaped view.
-  /// If [SnakeBarStyle.pinned] this color just
+  /// If [SnakeBarBehaviour.pinned] this color just
   /// a background color of whole [SnakeNavigationBar] view
   final Gradient backgroundGradient;
 
   /// This color represents a SnakeView and unselected
   /// Icon and label color
-  final Gradient selectedColor;
+  final Gradient snakeViewGradient;
+
+  /// This color represents a selected Icon color
+  final Gradient selectedItemGradient;
+
+  /// This color represents a unselected Icon color
+  final Gradient unselectedItemGradient;
 
   /// Whether the labels are shown for the selected [BottomNavigationBarItem].
   final bool showSelectedLabels;
@@ -83,16 +98,19 @@ SnakeNavigationBar has a similar API to BottomNavigationBar and uses BottomNavig
 
   /// Defines the layout and behavior of a [SnakeNavigationBar].
   ///
-  /// See documentation for [SnakeBarStyle] for information on the
+  /// See documentation for [SnakeBarBehaviour] for information on the
   /// meaning of different styles.
   ///
-  /// Default is [SnakeBarStyle.pinned]
-  final SnakeBarStyle style;
+  /// Default is [SnakeBarBehaviour.pinned]
+  final SnakeBarBehaviour behaviour;
 
   /// You can define custom [ShapeBorder] with padding and elevation to [SnakeNavigationBar]
   final ShapeBorder shape;
   final EdgeInsets padding;
   final double elevation;
+
+  /// Called when one of the [items] is pressed.
+  final ValueChanged<int> onTap;
 ```
 
 
