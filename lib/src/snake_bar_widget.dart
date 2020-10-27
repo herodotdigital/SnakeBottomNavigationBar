@@ -1,24 +1,32 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_snake_navigationbar/src/snake_shape.dart';
+import 'package:flutter_snake_navigationbar/src/theming/snake_shape.dart';
 
 import 'selection_notifier.dart';
-import 'snake_bar_style.dart';
+import 'theming/selection_style.dart';
+import 'theming/snake_bar_behaviour.dart';
 import 'snake_item_tile.dart';
 import 'snake_view.dart';
+import 'theming/snake_bottom_bar_theme.dart';
+import 'utils/extensions.dart';
 
 class SnakeNavigationBar extends StatelessWidget {
   final List<BottomNavigationBarItem> items;
 
-  /// If [SnakeBarStyle.floating] this color is
+  /// If [SnakeBarBehaviour.floating] this color is
   /// used as background color of shaped view.
-  /// If [SnakeBarStyle.pinned] this color just
+  /// If [SnakeBarBehaviour.pinned] this color just
   /// a background color of whole [SnakeNavigationBar] view
   final Gradient backgroundGradient;
 
   /// This color represents a SnakeView and unselected
   /// Icon and label color
-  final Gradient selectedColor;
+  final Gradient snakeViewGradient;
+
+  /// This color represents a selected Icon color
+  final Gradient selectedItemGradient;
+
+  /// This color represents a unselected Icon color
+  final Gradient unselectedItemGradient;
 
   /// Whether the labels are shown for the selected [BottomNavigationBarItem].
   final bool showSelectedLabels;
@@ -42,11 +50,11 @@ class SnakeNavigationBar extends StatelessWidget {
 
   /// Defines the layout and behavior of a [SnakeNavigationBar].
   ///
-  /// See documentation for [SnakeBarStyle] for information on the
+  /// See documentation for [SnakeBarBehaviour] for information on the
   /// meaning of different styles.
   ///
-  /// Default is [SnakeBarStyle.pinned]
-  final SnakeBarStyle style;
+  /// Default is [SnakeBarBehaviour.pinned]
+  final SnakeBarBehaviour behaviour;
 
   /// You can define custom [ShapeBorder] with padding and elevation to [SnakeNavigationBar]
   final ShapeBorder shape;
@@ -54,15 +62,18 @@ class SnakeNavigationBar extends StatelessWidget {
   final double elevation;
 
   /// Called when one of the [items] is pressed.
-  final ValueChanged<int> onPositionChanged;
+  final ValueChanged<int> onTap;
 
   final SelectionNotifier _notifier;
 
-  SnakeNavigationBar({
-    Color snakeColor,
-    Gradient snakeGradient,
-    Color backgroundColor,
-    Gradient backgroundGradient,
+  final SelectionStyle _selectionStyle;
+
+  SnakeNavigationBar._(
+    this._selectionStyle, {
+    this.snakeViewGradient,
+    this.backgroundGradient,
+    this.selectedItemGradient,
+    this.unselectedItemGradient,
     bool showSelectedLabels = false,
     this.showUnselectedLabels = false,
     this.items,
@@ -70,91 +81,163 @@ class SnakeNavigationBar extends StatelessWidget {
     this.shape,
     this.padding = EdgeInsets.zero,
     this.elevation = 0,
-    this.onPositionChanged,
-    this.style = SnakeBarStyle.pinned,
+    this.onTap,
+    this.behaviour = SnakeBarBehaviour.pinned,
     this.snakeShape = SnakeShape.circle,
     this.shadowColor = Colors.black,
-  })  : assert((snakeGradient == null && snakeColor != null) ||
-            (snakeGradient != null && snakeColor == null) ||
-            (snakeGradient == null && snakeColor == null)),
-        assert((backgroundColor == null && backgroundGradient != null) ||
-            (backgroundColor != null && backgroundGradient == null) ||
-            (backgroundColor == null && backgroundGradient == null)),
-        this.backgroundGradient = backgroundGradient ??
-            LinearGradient(colors: [
-              backgroundColor ?? Colors.white,
-              backgroundColor ?? Colors.white
-            ]),
-        selectedColor = snakeGradient ??
-            LinearGradient(colors: [
-              snakeColor ?? Colors.black,
-              snakeColor ?? Colors.black
-            ]),
-        _notifier = SelectionNotifier(currentIndex, onPositionChanged),
-        showSelectedLabels =
-            (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
-                ? false
-                : showSelectedLabels;
+  })  : this._notifier = SelectionNotifier(currentIndex, onTap),
+        this.showSelectedLabels = (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
+            ? false
+            : showSelectedLabels;
+
+  factory SnakeNavigationBar.color({
+    Color snakeViewColor,
+    Color backgroundColor,
+    Color selectedItemColor,
+    Color unselectedItemColor,
+    bool showSelectedLabels = false,
+    bool showUnselectedLabels = false,
+    List<BottomNavigationBarItem> items,
+    int currentIndex = 0,
+    ShapeBorder shape,
+    EdgeInsets padding = EdgeInsets.zero,
+    double elevation = 0.0,
+    ValueChanged<int> onTap,
+    SnakeBarBehaviour behaviour = SnakeBarBehaviour.pinned,
+    SnakeShape snakeShape = SnakeShape.circle,
+    Color shadowColor = Colors.black,
+  }) {
+    return SnakeNavigationBar._(
+      SelectionStyle.color,
+      snakeViewGradient: snakeViewColor?.toGradient,
+      backgroundGradient: backgroundColor?.toGradient,
+      selectedItemGradient: selectedItemColor?.toGradient,
+      unselectedItemGradient: unselectedItemColor?.toGradient,
+      showSelectedLabels: showUnselectedLabels ?? false,
+      showUnselectedLabels: showUnselectedLabels ?? false,
+      items: items,
+      currentIndex: currentIndex ?? 0,
+      shape: shape,
+      padding: padding ?? EdgeInsets.zero,
+      elevation: elevation ?? 0.0,
+      onTap: onTap,
+      behaviour: behaviour ?? SnakeBarBehaviour.pinned,
+      snakeShape: snakeShape ?? SnakeShape.circle,
+      shadowColor: shadowColor ?? Colors.black,
+    );
+  }
+
+  factory SnakeNavigationBar.gradient({
+    Gradient snakeViewGradient,
+    Gradient backgroundGradient,
+    Gradient selectedItemGradient,
+    Gradient unselectedItemGradient,
+    bool showSelectedLabels = false,
+    bool showUnselectedLabels = false,
+    List<BottomNavigationBarItem> items,
+    int currentIndex = 0,
+    ShapeBorder shape,
+    EdgeInsets padding = EdgeInsets.zero,
+    double elevation = 0.0,
+    ValueChanged<int> onTap,
+    SnakeBarBehaviour behaviour = SnakeBarBehaviour.pinned,
+    SnakeShape snakeShape = SnakeShape.circle,
+    Color shadowColor = Colors.black,
+  }) {
+    return SnakeNavigationBar._(
+      SelectionStyle.gradient,
+      snakeViewGradient: snakeViewGradient,
+      backgroundGradient: backgroundGradient,
+      selectedItemGradient: selectedItemGradient,
+      unselectedItemGradient: unselectedItemGradient,
+      showSelectedLabels: showUnselectedLabels ?? false,
+      showUnselectedLabels: showUnselectedLabels ?? false,
+      items: items,
+      currentIndex: currentIndex ?? 0,
+      shape: shape,
+      padding: padding ?? EdgeInsets.zero,
+      elevation: elevation ?? 0.0,
+      onTap: onTap,
+      behaviour: behaviour ?? SnakeBarBehaviour.pinned,
+      snakeShape: snakeShape ?? SnakeShape.circle,
+      shadowColor: shadowColor ?? Colors.black,
+    );
+  }
+
+  SnakeBottomBarThemeData _createTheme(BuildContext context) {
+    var theme = BottomNavigationBarTheme.of(context);
+    return SnakeBottomBarThemeData(
+      snakeGradient: snakeViewGradient ?? Theme.of(context).accentColor?.toGradient,
+      backgroundGradient: backgroundGradient ??
+          theme.backgroundColor?.toGradient ??
+          Theme.of(context).cardColor?.toGradient,
+      selectedItemGradient: selectedItemGradient ??
+          theme.selectedItemColor?.toGradient ??
+          Theme.of(context).cardColor?.toGradient,
+      unselectedItemGradient: unselectedItemGradient ??
+          theme.unselectedItemColor?.toGradient ??
+          Theme.of(context).accentColor?.toGradient,
+      showSelectedLabels: showSelectedLabels ?? theme.showSelectedLabels ?? true,
+      showUnselectedLabels: showUnselectedLabels ?? theme.showUnselectedLabels ?? true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     List<SnakeItemTile> tiles = items
         .map((item) => SnakeItemTile(
               item.icon,
-              item.title,
-              showSelectedLabels,
-              showUnselectedLabels,
+              item.label,
               items.indexOf(item),
-              backgroundGradient,
-              selectedColor,
               _notifier,
-              snakeShape.type == SnakeShapeType.indicator
-                  ? SelectionStyle.opacity
-                  : SelectionStyle.color,
+              _selectionStyle,
+              snakeShape.type == SnakeShapeType.indicator,
             ))
         .toList();
 
-    return AnimatedPadding(
-      padding: padding,
-      duration: kThemeChangeDuration,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          SafeArea(
-            left: false,
-            right: false,
-            child: Material(
-              shadowColor: shadowColor,
-              elevation: elevation,
-              clipBehavior: Clip.antiAlias,
-              shape: shape,
-              child: Container(
-                decoration: BoxDecoration(gradient: backgroundGradient),
-                height: kBottomNavigationBarHeight,
-                child: Stack(
-                  children: [
-                    SnakeView(
-                      itemsCount: items.length,
-                      shape: snakeShape,
-                      showSelectedLabels: showSelectedLabels,
-                      widgetEdgePadding: padding.left + padding.right,
-                      snakeColor: selectedColor,
-                      notifier: _notifier,
-                    ),
-                    Row(children: tiles),
-                  ],
+    var theme = _createTheme(context);
+    return SnakeBottomBarTheme(
+      data: theme,
+      child: AnimatedPadding(
+        padding: padding,
+        duration: kThemeChangeDuration,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            SafeArea(
+              left: false,
+              right: false,
+              child: Material(
+                shadowColor: shadowColor,
+                elevation: elevation,
+                clipBehavior: Clip.antiAlias,
+                color: Colors.transparent,
+                shape: shape,
+                child: Container(
+                  decoration: BoxDecoration(gradient: theme.backgroundGradient),
+                  height: kBottomNavigationBarHeight,
+                  child: Stack(
+                    children: [
+                      SnakeView(
+                        itemsCount: items.length,
+                        shape: snakeShape,
+                        widgetEdgePadding: padding.left + padding.right,
+                        notifier: _notifier,
+                      ),
+                      Row(children: tiles),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          AnimatedContainer(
-            height: style == SnakeBarStyle.pinned
-                ? MediaQuery.of(context).padding.bottom
-                : 0,
-            decoration: BoxDecoration(gradient: backgroundGradient),
-            duration: kThemeChangeDuration,
-          ),
-        ],
+            AnimatedContainer(
+              height:
+                  behaviour == SnakeBarBehaviour.pinned ? MediaQuery.of(context).padding.bottom : 0,
+              decoration: BoxDecoration(gradient: theme.backgroundGradient),
+              duration: kThemeChangeDuration,
+            ),
+          ],
+        ),
       ),
     );
   }

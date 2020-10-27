@@ -13,7 +13,7 @@ class SnakeShape {
   /// Used internal for distinction defined and custom shapes
   final SnakeShapeType type;
 
-  SnakeShape({@required this.shape, this.centered = true})
+  const SnakeShape({@required this.shape, this.centered = true})
       : type = SnakeShapeType.custom;
 
   const SnakeShape._internal({this.shape, this.type, this.centered});

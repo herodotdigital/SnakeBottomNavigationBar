@@ -23,40 +23,38 @@ class SnakeNavigationBarExampleScreen extends StatefulWidget {
 
 class _SnakeNavigationBarExampleScreenState
     extends State<SnakeNavigationBarExampleScreen> {
-  SnakeShape customSnakeShape = SnakeShape(
-      shape: BeveledRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12))),
-      centered: true);
-  ShapeBorder customBottomBarShape = RoundedRectangleBorder(
-    borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(25), topRight: Radius.circular(25)),
-  );
-  ShapeBorder customBottomBarShape1 = BeveledRectangleBorder(
-    borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+  BorderRadius _borderRadius = const BorderRadius.only(
+    topLeft: Radius.circular(25),
+    topRight: Radius.circular(25),
   );
 
-  int _selectedItemPosition = 2;
-  SnakeBarStyle snakeBarStyle = SnakeBarStyle.floating;
-  SnakeShape snakeShape = SnakeShape.circle;
   ShapeBorder bottomBarShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(25)));
-  double elevation = 0;
+    borderRadius: BorderRadius.all(Radius.circular(25)),
+  );
+  SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
+  EdgeInsets padding = EdgeInsets.all(12);
+
+  int _selectedItemPosition = 2;
+  SnakeShape snakeShape = SnakeShape.circle;
+
   bool showSelectedLabels = false;
   bool showUnselectedLabels = false;
 
-  Color backgroundColor = Colors.white;
-  Color selectionColor = Colors.black;
+  Color selectedColor = Colors.black;
+  Gradient selectedGradient =
+      LinearGradient(colors: [Colors.red, Colors.amber]);
 
-  Gradient backgroundGradient =
-      const LinearGradient(colors: [Colors.black, Colors.lightBlue]);
-  Gradient selectionGradient =
-      const LinearGradient(colors: [Colors.white, Colors.amber]);
+  Color unselectedColor = Colors.blueGrey;
+  Gradient unselectedGradient =
+      LinearGradient(colors: [Colors.red, Colors.blueGrey]);
 
-  EdgeInsets padding = EdgeInsets.all(12);
-  Color containerColor = Color(0xFFFDE1D7);
-  TextStyle labelTextStyle = TextStyle(
-      fontSize: 11, fontFamily: 'Ubuntu', fontWeight: FontWeight.bold);
+  Color containerColor;
+  List<Color> containerColors = [
+    Color(0xFFFDE1D7),
+    Color(0xFFE4EDF5),
+    Color(0xFFF4E4CE),
+    Color(0xFFE7EEED),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +73,7 @@ class _SnakeNavigationBarExampleScreenState
         backgroundColor: Colors.transparent,
       ),
       body: AnimatedContainer(
-        color: containerColor,
+        color: containerColor ?? containerColors[0],
         duration: Duration(seconds: 1),
         child: PageView(
           onPageChanged: _onPageChanged,
@@ -106,64 +104,63 @@ class _SnakeNavigationBarExampleScreenState
           ],
         ),
       ),
-      bottomNavigationBar: SnakeNavigationBar(
-        style: snakeBarStyle,
+      bottomNavigationBar: SnakeNavigationBar.color(
+        behaviour: snakeBarStyle,
         snakeShape: snakeShape,
-        snakeColor: selectionColor, //comment if you want to see colors
-        backgroundColor: backgroundColor, //comment if you want to see colors
-//        snakeGradient:
-//            selectionGradient, //uncomment if you want to see gradients
-//        backgroundGradient:
-//            backgroundGradient, //uncomment if you want to see gradients
-        showUnselectedLabels: showUnselectedLabels,
-        showSelectedLabels: showSelectedLabels,
         shape: bottomBarShape,
         padding: padding,
+
+        ///configuration for SnakeNavigationBar.color
+        snakeViewColor: selectedColor,
+        selectedItemColor:
+            snakeShape == SnakeShape.indicator ? selectedColor : null,
+        unselectedItemColor: Colors.blueGrey,
+
+        ///configuration for SnakeNavigationBar.gradient
+        // snakeViewGradient: selectedGradient,
+        // selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
+        // unselectedItemGradient: unselectedGradient,
+
+        showUnselectedLabels: showUnselectedLabels,
+        showSelectedLabels: showSelectedLabels,
+
         currentIndex: _selectedItemPosition,
-        onPositionChanged: (index) =>
-            setState(() => _selectedItemPosition = index),
+        onTap: (index) => setState(() => _selectedItemPosition = index),
         items: [
           BottomNavigationBarItem(
-              icon: Icon(CustomIcons.tickets),
-              title: Text('tickets', style: labelTextStyle)),
+              icon: Icon(Icons.notifications), label: 'tickets'),
           BottomNavigationBarItem(
-              icon: Icon(CustomIcons.calendar),
-              title: Text('calendar', style: labelTextStyle)),
+              icon: Icon(CustomIcons.calendar), label: 'calendar'),
+          BottomNavigationBarItem(icon: Icon(CustomIcons.home), label: 'home'),
           BottomNavigationBarItem(
-              icon: Icon(CustomIcons.home),
-              title: Text('home', style: labelTextStyle)),
+              icon: Icon(CustomIcons.podcasts), label: 'microphone'),
           BottomNavigationBarItem(
-              icon: Icon(CustomIcons.podcasts),
-              title: Text('microphone', style: labelTextStyle)),
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.search),
-              title: Text('search', style: labelTextStyle))
+              icon: Icon(CustomIcons.search), label: 'search')
         ],
       ),
     );
   }
 
   _onPageChanged(int page) {
+    containerColor = containerColors[page];
     switch (page) {
       case 0:
         setState(() {
-          containerColor = Color(0xFFFDE1D7);
-          snakeBarStyle = SnakeBarStyle.floating;
+          snakeBarStyle = SnakeBarBehaviour.floating;
           snakeShape = SnakeShape.circle;
-          padding = EdgeInsets.all(12).copyWith();
-          bottomBarShape = RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25)));
+          padding = EdgeInsets.all(12);
+          bottomBarShape =
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25));
           showSelectedLabels = false;
           showUnselectedLabels = false;
         });
         break;
       case 1:
         setState(() {
-          containerColor = Color(0xFFE4EDF5);
-          snakeBarStyle = SnakeBarStyle.pinned;
+          snakeBarStyle = SnakeBarBehaviour.pinned;
           snakeShape = SnakeShape.circle;
           padding = EdgeInsets.zero;
-          bottomBarShape = customBottomBarShape;
+          bottomBarShape = RoundedRectangleBorder(borderRadius: _borderRadius);
           showSelectedLabels = false;
           showUnselectedLabels = false;
         });
@@ -171,19 +168,17 @@ class _SnakeNavigationBarExampleScreenState
 
       case 2:
         setState(() {
-          containerColor = Color(0xFFF4E4CE);
-          snakeBarStyle = SnakeBarStyle.pinned;
+          snakeBarStyle = SnakeBarBehaviour.pinned;
           snakeShape = SnakeShape.rectangle;
           padding = EdgeInsets.zero;
-          bottomBarShape = customBottomBarShape1;
+          bottomBarShape = BeveledRectangleBorder(borderRadius: _borderRadius);
           showSelectedLabels = true;
           showUnselectedLabels = true;
         });
         break;
       case 3:
         setState(() {
-          containerColor = Color(0xFFE7EEED);
-          snakeBarStyle = SnakeBarStyle.pinned;
+          snakeBarStyle = SnakeBarBehaviour.pinned;
           snakeShape = SnakeShape.indicator;
           padding = EdgeInsets.zero;
           bottomBarShape = null;
@@ -202,7 +197,10 @@ class PagerPageWidget extends StatelessWidget {
   final TextStyle titleStyle =
       TextStyle(fontSize: 40, fontFamily: 'SourceSerifPro');
   final TextStyle subtitleStyle = TextStyle(
-      fontSize: 20, fontFamily: 'Ubuntu', fontWeight: FontWeight.w200);
+    fontSize: 20,
+    fontFamily: 'Ubuntu',
+    fontWeight: FontWeight.w200,
+  );
 
   PagerPageWidget({
     Key key,
@@ -212,45 +210,55 @@ class PagerPageWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.all(24),
-        child: SafeArea(
-          child: OrientationBuilder(builder: (context, orientation) {
-            return orientation == Orientation.portrait
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text(text, style: titleStyle),
-                          SizedBox(height: 16),
-                          Text(description, style: subtitleStyle),
-                        ],
-                      ),
-                      image
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Text(text, style: titleStyle),
-                            Text(description, style: subtitleStyle),
-                          ],
-                        ),
-                      ),
-                      Expanded(child: image)
-                    ],
-                  );
-          }),
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      child: SafeArea(
+        child: OrientationBuilder(builder: (context, orientation) {
+          return orientation == Orientation.portrait
+              ? _portraitWidget()
+              : _horizontalWidget(context);
+        }),
+      ),
+    );
+  }
+
+  _portraitWidget() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(text, style: titleStyle),
+            SizedBox(height: 16),
+            Text(description, style: subtitleStyle),
+          ],
         ),
-      );
+        image
+      ],
+    );
+  }
+
+  _horizontalWidget(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width / 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(text, style: titleStyle),
+              Text(description, style: subtitleStyle),
+            ],
+          ),
+        ),
+        Expanded(child: image)
+      ],
+    );
+  }
 }

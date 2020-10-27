@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_snake_navigationbar/src/snake_shape.dart';
+import 'package:flutter_snake_navigationbar/src/theming/snake_bottom_bar_theme.dart';
+import 'package:flutter_snake_navigationbar/src/theming/snake_shape.dart';
 import 'selection_notifier.dart';
 
 class SnakeView extends StatefulWidget {
   final int itemsCount;
   final SnakeShape shape;
-  final Gradient snakeColor;
   final double widgetEdgePadding;
   final SelectionNotifier notifier;
   final Duration animationDuration;
@@ -13,7 +13,6 @@ class SnakeView extends StatefulWidget {
   final Curve snakeCurve;
   final double circlePadding;
   final double indicatorHeight;
-  final bool showSelectedLabels;
 
   SnakeView({
     @required this.itemsCount,
@@ -25,8 +24,6 @@ class SnakeView extends StatefulWidget {
     this.snakeCurve = Curves.easeInOut,
     this.circlePadding = 4,
     this.indicatorHeight = 4,
-    @required this.showSelectedLabels,
-    @required this.snakeColor,
   });
 
   @override
@@ -120,7 +117,8 @@ class _SnakeViewState extends State<SnakeView> {
             shape: _snakeShape(),
             clipBehavior: Clip.antiAlias,
             child: Container(
-                decoration: BoxDecoration(gradient: widget.snakeColor)),
+                decoration: BoxDecoration(
+                    gradient: SnakeBottomBarTheme.of(context).snakeGradient)),
           ),
         ),
       ),
