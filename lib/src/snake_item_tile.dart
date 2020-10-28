@@ -36,9 +36,13 @@ class SnakeItemTile extends StatelessWidget {
               if (theme.showSelectedLabels && theme.showUnselectedLabels)
                 return _getLabeledItem(theme);
               else if (theme.showSelectedLabels)
-                return isSelected ? _getLabeledItem(theme) : _getThemedIcon(theme);
+                return isSelected
+                    ? _getLabeledItem(theme)
+                    : _getThemedIcon(theme);
               else if (theme.showUnselectedLabels)
-                return isSelected ? _getThemedIcon(theme) : _getLabeledItem(theme);
+                return isSelected
+                    ? _getThemedIcon(theme)
+                    : _getLabeledItem(theme);
               else
                 return _getThemedIcon(theme);
             },
@@ -63,7 +67,9 @@ class SnakeItemTile extends StatelessWidget {
     var labelWidget = selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
             child: Text(label, style: TextStyle(color: Colors.white)),
-            shaderCallback: (isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient)
+            shaderCallback: (isSelected
+                    ? theme.selectedItemGradient
+                    : theme.unselectedItemGradient)
                 .defaultShader,
           )
         : Text(label,
@@ -86,7 +92,9 @@ class SnakeItemTile extends StatelessWidget {
         ? ShaderMask(
             blendMode: BlendMode.srcIn,
             child: icon,
-            shaderCallback: (isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient)
+            shaderCallback: (isSelected
+                    ? theme.selectedItemGradient
+                    : theme.unselectedItemGradient)
                 .defaultShader,
           )
         : IconTheme(

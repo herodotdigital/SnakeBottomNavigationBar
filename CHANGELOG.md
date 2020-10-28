@@ -11,3 +11,5 @@
 ## [0.4.0+1] - Fixed selectedIconColor.
 
 ## [0.4.1] - Separated colors and gradient functionality.
+
+## [0.4.1+1] - Fixed code formatting.

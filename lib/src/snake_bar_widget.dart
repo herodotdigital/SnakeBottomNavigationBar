@@ -86,9 +86,10 @@ class SnakeNavigationBar extends StatelessWidget {
     this.snakeShape = SnakeShape.circle,
     this.shadowColor = Colors.black,
   })  : this._notifier = SelectionNotifier(currentIndex, onTap),
-        this.showSelectedLabels = (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
-            ? false
-            : showSelectedLabels;
+        this.showSelectedLabels =
+            (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
+                ? false
+                : showSelectedLabels;
 
   factory SnakeNavigationBar.color({
     Color snakeViewColor,
@@ -167,7 +168,8 @@ class SnakeNavigationBar extends StatelessWidget {
   SnakeBottomBarThemeData _createTheme(BuildContext context) {
     var theme = BottomNavigationBarTheme.of(context);
     return SnakeBottomBarThemeData(
-      snakeGradient: snakeViewGradient ?? Theme.of(context).accentColor?.toGradient,
+      snakeGradient:
+          snakeViewGradient ?? Theme.of(context).accentColor?.toGradient,
       backgroundGradient: backgroundGradient ??
           theme.backgroundColor?.toGradient ??
           Theme.of(context).cardColor?.toGradient,
@@ -177,8 +179,10 @@ class SnakeNavigationBar extends StatelessWidget {
       unselectedItemGradient: unselectedItemGradient ??
           theme.unselectedItemColor?.toGradient ??
           Theme.of(context).accentColor?.toGradient,
-      showSelectedLabels: showSelectedLabels ?? theme.showSelectedLabels ?? true,
-      showUnselectedLabels: showUnselectedLabels ?? theme.showUnselectedLabels ?? true,
+      showSelectedLabels:
+          showSelectedLabels ?? theme.showSelectedLabels ?? true,
+      showUnselectedLabels:
+          showUnselectedLabels ?? theme.showUnselectedLabels ?? true,
     );
   }
 
@@ -231,8 +235,9 @@ class SnakeNavigationBar extends StatelessWidget {
               ),
             ),
             AnimatedContainer(
-              height:
-                  behaviour == SnakeBarBehaviour.pinned ? MediaQuery.of(context).padding.bottom : 0,
+              height: behaviour == SnakeBarBehaviour.pinned
+                  ? MediaQuery.of(context).padding.bottom
+                  : 0,
               decoration: BoxDecoration(gradient: theme.backgroundGradient),
               duration: kThemeChangeDuration,
             ),
