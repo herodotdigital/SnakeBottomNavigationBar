@@ -17,12 +17,10 @@ class ExampleApp extends StatelessWidget {
 
 class SnakeNavigationBarExampleScreen extends StatefulWidget {
   @override
-  _SnakeNavigationBarExampleScreenState createState() =>
-      _SnakeNavigationBarExampleScreenState();
+  _SnakeNavigationBarExampleScreenState createState() => _SnakeNavigationBarExampleScreenState();
 }
 
-class _SnakeNavigationBarExampleScreenState
-    extends State<SnakeNavigationBarExampleScreen> {
+class _SnakeNavigationBarExampleScreenState extends State<SnakeNavigationBarExampleScreen> {
   BorderRadius _borderRadius = const BorderRadius.only(
     topLeft: Radius.circular(25),
     topRight: Radius.circular(25),
@@ -41,12 +39,10 @@ class _SnakeNavigationBarExampleScreenState
   bool showUnselectedLabels = false;
 
   Color selectedColor = Colors.black;
-  Gradient selectedGradient =
-      LinearGradient(colors: [Colors.red, Colors.amber]);
+  Gradient selectedGradient = LinearGradient(colors: [Colors.red, Colors.amber]);
 
   Color unselectedColor = Colors.blueGrey;
-  Gradient unselectedGradient =
-      LinearGradient(colors: [Colors.red, Colors.blueGrey]);
+  Gradient unselectedGradient = LinearGradient(colors: [Colors.red, Colors.blueGrey]);
 
   Color containerColor;
   List<Color> containerColors = [
@@ -65,9 +61,7 @@ class _SnakeNavigationBarExampleScreenState
       appBar: AppBar(
         centerTitle: false,
         brightness: Brightness.light,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {}),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.black), onPressed: () {}),
         title: Text('Go back', style: TextStyle(color: Colors.black)),
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -85,20 +79,17 @@ class _SnakeNavigationBarExampleScreenState
             ),
             PagerPageWidget(
               text: 'It comes in all shapes and sizes...',
-              description:
-                  'Change indicator and bottom bar shape at your will.',
+              description: 'Change indicator and bottom bar shape at your will.',
               image: Image.asset('images/flutter2.png'),
             ),
             PagerPageWidget(
               text: '...not only the ones you see here',
-              description:
-                  'Combine different shapes for unique and personalized style!.',
+              description: 'Combine different shapes for unique and personalized style!.',
               image: Image.asset('images/flutter3.png'),
             ),
             PagerPageWidget(
               text: 'And it\'s all open source!',
-              description:
-                  'Get the Flutter library on github.com/herodotdigital',
+              description: 'Get the Flutter library on github.com/herodotdigital',
               image: Image.asset('images/flutter4.png'),
             ),
           ],
@@ -112,8 +103,7 @@ class _SnakeNavigationBarExampleScreenState
 
         ///configuration for SnakeNavigationBar.color
         snakeViewColor: selectedColor,
-        selectedItemColor:
-            snakeShape == SnakeShape.indicator ? selectedColor : null,
+        selectedItemColor: snakeShape == SnakeShape.indicator ? selectedColor : null,
         unselectedItemColor: Colors.blueGrey,
 
         ///configuration for SnakeNavigationBar.gradient
@@ -127,15 +117,11 @@ class _SnakeNavigationBarExampleScreenState
         currentIndex: _selectedItemPosition,
         onTap: (index) => setState(() => _selectedItemPosition = index),
         items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notifications), label: 'tickets'),
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.calendar), label: 'calendar'),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'tickets'),
+          BottomNavigationBarItem(icon: Icon(CustomIcons.calendar), label: 'calendar'),
           BottomNavigationBarItem(icon: Icon(CustomIcons.home), label: 'home'),
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.podcasts), label: 'microphone'),
-          BottomNavigationBarItem(
-              icon: Icon(CustomIcons.search), label: 'search')
+          BottomNavigationBarItem(icon: Icon(CustomIcons.podcasts), label: 'microphone'),
+          BottomNavigationBarItem(icon: Icon(CustomIcons.search), label: 'search')
         ],
       ),
     );
@@ -149,8 +135,7 @@ class _SnakeNavigationBarExampleScreenState
           snakeBarStyle = SnakeBarBehaviour.floating;
           snakeShape = SnakeShape.circle;
           padding = EdgeInsets.all(12);
-          bottomBarShape =
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25));
+          bottomBarShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(25));
           showSelectedLabels = false;
           showUnselectedLabels = false;
         });
@@ -194,8 +179,7 @@ class PagerPageWidget extends StatelessWidget {
   final String text;
   final String description;
   final Image image;
-  final TextStyle titleStyle =
-      TextStyle(fontSize: 40, fontFamily: 'SourceSerifPro');
+  final TextStyle titleStyle = TextStyle(fontSize: 40, fontFamily: 'SourceSerifPro');
   final TextStyle subtitleStyle = TextStyle(
     fontSize: 20,
     fontFamily: 'Ubuntu',

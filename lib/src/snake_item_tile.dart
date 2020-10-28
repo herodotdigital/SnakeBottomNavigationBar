@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'selection_notifier.dart';
 import 'theming/selection_style.dart';
 import 'theming/snake_bottom_bar_theme.dart';
@@ -53,26 +54,28 @@ class SnakeItemTile extends StatelessWidget {
   }
 
   Widget _getLabeledItem(SnakeBottomBarThemeData theme) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _getThemedIcon(theme),
-        SizedBox(height: 1),
-        _getThemedTitle(theme),
-      ],
-    );
+    return label != null
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _getThemedIcon(theme),
+              SizedBox(height: 1),
+              _getThemedTitle(theme),
+            ],
+          )
+        : _getThemedIcon(theme);
   }
 
   Widget _getThemedTitle(SnakeBottomBarThemeData theme) {
     var labelWidget = selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
-            child: Text(label, style: TextStyle(color: Colors.white)),
+            child: Text(label ?? '', style: TextStyle(color: Colors.white)),
             shaderCallback: (isSelected
                     ? theme.selectedItemGradient
                     : theme.unselectedItemGradient)
                 .defaultShader,
           )
-        : Text(label,
+        : Text(label ?? '',
             style: TextStyle(
               color: (isSelected
                   ? theme.selectedItemGradient.colors.first
