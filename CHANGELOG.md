@@ -15,3 +15,5 @@
 ## [0.4.1+1] - Fixed code formatting.
 
 ## [0.4.1+2] - Fixed compatibility with BottomNavigationBarItem.
+
+## [0.4.1+3] - Fixed showSelectedLabels issue.

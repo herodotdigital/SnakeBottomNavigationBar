@@ -34,18 +34,14 @@ class SnakeItemTile extends StatelessWidget {
         child: Center(
           child: LayoutBuilder(
             builder: (context, constraint) {
-              if (theme.showSelectedLabels && theme.showUnselectedLabels)
-                return _getLabeledItem(theme);
-              else if (theme.showSelectedLabels)
-                return isSelected
+              if (isSelected)
+                return theme.showSelectedLabels
                     ? _getLabeledItem(theme)
                     : _getThemedIcon(theme);
-              else if (theme.showUnselectedLabels)
-                return isSelected
-                    ? _getThemedIcon(theme)
-                    : _getLabeledItem(theme);
               else
-                return _getThemedIcon(theme);
+                return theme.showUnselectedLabels
+                    ? _getLabeledItem(theme)
+                    : _getThemedIcon(theme);
             },
           ),
         ),
