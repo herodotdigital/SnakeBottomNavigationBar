@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/src/theming/snake_bottom_bar_theme.dart';
 import 'package:flutter_snake_navigationbar/src/theming/snake_shape.dart';
+
 import 'selection_notifier.dart';
 
 class SnakeView extends StatefulWidget {
@@ -12,7 +13,6 @@ class SnakeView extends StatefulWidget {
   final Duration delayTransition;
   final Curve snakeCurve;
   final double circlePadding;
-  final double indicatorHeight;
 
   SnakeView({
     @required this.itemsCount,
@@ -23,7 +23,6 @@ class SnakeView extends StatefulWidget {
     this.delayTransition = const Duration(milliseconds: 50),
     this.snakeCurve = Curves.easeInOut,
     this.circlePadding = 4,
-    this.indicatorHeight = 4,
   });
 
   @override
@@ -89,12 +88,19 @@ class _SnakeViewState extends State<SnakeView> {
     EdgeInsets viewPadding = widget.shape.type == SnakeShapeType.circle ||
             widget.shape.centered
         ? EdgeInsets.symmetric(
-            vertical: widget.circlePadding,
+            vertical: ((kBottomNavigationBarHeight - widget.shape.height) / 2) +
+                widget.circlePadding,
             horizontal: (oneItemWidth -
-                    (kBottomNavigationBarHeight - widget.circlePadding * 2)) /
+                    (widget.shape.height - widget.circlePadding * 2)) /
                 2,
           )
-        : EdgeInsets.zero;
+        : (widget.shape.height != kBottomNavigationBarHeight &&
+                widget.shape.type != SnakeShapeType.indicator
+            ? EdgeInsets.symmetric(
+                vertical:
+                    (kBottomNavigationBarHeight - widget.shape.height) / 2,
+              )
+            : EdgeInsets.zero);
 
     double snakeViewWidth =
         widget.shape.type == SnakeShapeType.circle || widget.shape.centered
@@ -116,9 +122,11 @@ class _SnakeViewState extends State<SnakeView> {
           child: Material(
             shape: _snakeShape(),
             clipBehavior: Clip.antiAlias,
-            child: Container(
-                decoration: BoxDecoration(
-                    gradient: SnakeBottomBarTheme.of(context).snakeGradient)),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: SnakeBottomBarTheme.of(context).snakeGradient,
+              ),
+            ),
           ),
         ),
       ),
@@ -126,20 +134,19 @@ class _SnakeViewState extends State<SnakeView> {
   }
 
   double _snakeViewHeight() {
+    var themeHeight = widget.shape.height;
     switch (widget.shape.type) {
       case SnakeShapeType.circle:
-        return kBottomNavigationBarHeight - widget.circlePadding * 2;
+        return themeHeight - widget.circlePadding * 2;
         break;
       case SnakeShapeType.rectangle:
-        return kBottomNavigationBarHeight;
-        break;
       case SnakeShapeType.indicator:
-        return widget.indicatorHeight;
+        return themeHeight;
         break;
       case SnakeShapeType.custom:
         return widget.shape.centered
-            ? kBottomNavigationBarHeight - widget.circlePadding * 2
-            : kBottomNavigationBarHeight;
+            ? themeHeight - widget.circlePadding * 2
+            : themeHeight;
         break;
     }
     return -1;
@@ -157,5 +164,6 @@ class _SnakeViewState extends State<SnakeView> {
   }
 
   ShapeBorder _getRoundShape(double radius) => RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(radius)));
+        borderRadius: BorderRadius.circular(radius),
+      );
 }
