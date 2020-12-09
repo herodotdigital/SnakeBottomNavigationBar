@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/src/theming/snake_shape.dart';
 
 import 'selection_notifier.dart';
-import 'theming/selection_style.dart';
-import 'theming/snake_bar_behaviour.dart';
 import 'snake_item_tile.dart';
 import 'snake_view.dart';
+import 'theming/selection_style.dart';
+import 'theming/snake_bar_behaviour.dart';
 import 'theming/snake_bottom_bar_theme.dart';
 import 'utils/extensions.dart';
 
@@ -85,8 +85,8 @@ class SnakeNavigationBar extends StatelessWidget {
     this.behaviour = SnakeBarBehaviour.pinned,
     this.snakeShape = SnakeShape.circle,
     this.shadowColor = Colors.black,
-  })  : this._notifier = SelectionNotifier(currentIndex, onTap),
-        this.showSelectedLabels =
+  })  : _notifier = SelectionNotifier(currentIndex, onTap),
+        showSelectedLabels =
             (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
                 ? false
                 : showSelectedLabels;
@@ -166,7 +166,7 @@ class SnakeNavigationBar extends StatelessWidget {
   }
 
   SnakeBottomBarThemeData _createTheme(BuildContext context) {
-    var theme = BottomNavigationBarTheme.of(context);
+    final theme = BottomNavigationBarTheme.of(context);
     return SnakeBottomBarThemeData(
       snakeGradient:
           snakeViewGradient ?? Theme.of(context).accentColor?.toGradient,
@@ -188,7 +188,7 @@ class SnakeNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<SnakeItemTile> tiles = items
+    final tiles = items
         .map((item) => SnakeItemTile(
               item.icon,
               item.label,
@@ -199,7 +199,7 @@ class SnakeNavigationBar extends StatelessWidget {
             ))
         .toList();
 
-    var theme = _createTheme(context);
+    final theme = _createTheme(context);
     return SnakeBottomBarTheme(
       data: theme,
       child: AnimatedPadding(

@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 class SnakeBottomBarTheme extends InheritedWidget {
   const SnakeBottomBarTheme({
-    Key key,
     @required this.data,
+    Key key,
     Widget child,
   })  : assert(data != null),
         super(key: key, child: child);
@@ -11,7 +11,7 @@ class SnakeBottomBarTheme extends InheritedWidget {
   final SnakeBottomBarThemeData data;
 
   static SnakeBottomBarThemeData of(BuildContext context) {
-    final SnakeBottomBarTheme bottomNavTheme =
+    final bottomNavTheme =
         context.dependOnInheritedWidgetOfExactType<SnakeBottomBarTheme>();
     return bottomNavTheme?.data;
   }

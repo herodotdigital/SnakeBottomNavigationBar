@@ -5,7 +5,7 @@ class SelectionNotifier extends ChangeNotifier {
   int currentIndex;
   final ValueChanged<int> onTap;
 
-  SelectionNotifier(int defaultValue, this.onTap) : currentIndex = defaultValue;
+  SelectionNotifier(this.currentIndex, this.onTap);
 
   void selectIndex(int index) {
     lastIndex = currentIndex;

@@ -21,7 +21,7 @@ class SnakeShape {
   SnakeShape copyWith({ShapeBorder shape, bool centered}) {
     return SnakeShape._internal(
       shape: shape ?? this.shape,
-      type: this.type,
+      type: type,
       centered: centered ?? this.centered,
     );
   }

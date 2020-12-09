@@ -14,7 +14,7 @@ class SnakeView extends StatefulWidget {
   final double circlePadding;
   final double indicatorHeight;
 
-  SnakeView({
+  const SnakeView({
     @required this.itemsCount,
     @required this.shape,
     @required this.widgetEdgePadding,
@@ -86,7 +86,7 @@ class _SnakeViewState extends State<SnakeView> {
       prevItemWidth = oneItemWidth;
     }
 
-    EdgeInsets viewPadding = widget.shape.type == SnakeShapeType.circle ||
+    final viewPadding = widget.shape.type == SnakeShapeType.circle ||
             widget.shape.centered
         ? EdgeInsets.symmetric(
             vertical: widget.circlePadding,
@@ -96,7 +96,7 @@ class _SnakeViewState extends State<SnakeView> {
           )
         : EdgeInsets.zero;
 
-    double snakeViewWidth =
+    final snakeViewWidth =
         widget.shape.type == SnakeShapeType.circle || widget.shape.centered
             ? oneItemWidth * snakeSize - (viewPadding.left + viewPadding.right)
             : oneItemWidth * snakeSize;
