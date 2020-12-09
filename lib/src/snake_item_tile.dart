@@ -31,6 +31,7 @@ class SnakeItemTile extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         onTap: () => notifier.selectIndex(position),
+        behavior: HitTestBehavior.translucent,
         child: Center(
           child: LayoutBuilder(
             builder: (context, constraint) {
