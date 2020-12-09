@@ -17,3 +17,5 @@
 ## [0.4.1+2] - Fixed compatibility with BottomNavigationBarItem.
 
 ## [0.4.1+3] - Fixed showSelectedLabels issue.
+
+## [0.4.1+4] - Fixed touch sensitivity for navigation items.
