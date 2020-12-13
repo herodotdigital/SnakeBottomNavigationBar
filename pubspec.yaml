@@ -10,10 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  extra_pedantic: 1.2.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic: ^1.9.2
+  extra_pedantic: 1.2.0

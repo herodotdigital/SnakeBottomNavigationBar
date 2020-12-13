@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "1.15.0-nullsafety.3"
   extra_pedantic:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: extra_pedantic
       url: "https://pub.dartlang.org"

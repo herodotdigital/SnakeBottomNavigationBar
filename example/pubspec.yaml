@@ -9,13 +9,14 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
+  flutter_snake_navigationbar:
+    path: ../
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  flutter_snake_navigationbar:
-    path: ../
+  extra_pedantic: 1.2.0
 
 flutter:
   uses-material-design: true

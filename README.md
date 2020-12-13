@@ -1,6 +1,7 @@
 # SnakeNavigationBar
 
 [![Pub](https://img.shields.io/pub/v/flutter_snake_navigationbar.svg)](https://pub.dev/packages/flutter_snake_navigationbar)
+[![extra_pedantic on pub.dev](https://img.shields.io/badge/style-extra__pedantic-blue)](https://pub.dev/packages/extra_pedantic)
 
 A new Flutter SnakeNavigationBar widget package.
 

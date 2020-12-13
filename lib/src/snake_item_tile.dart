@@ -67,12 +67,12 @@ class SnakeItemTile extends StatelessWidget {
   Widget _getThemedTitle(SnakeBottomBarThemeData theme) {
     final labelWidget = selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
-            child:
-                Text(label ?? '', style: const TextStyle(color: Colors.white)),
             shaderCallback: (isSelected
                     ? theme.selectedItemGradient
                     : theme.unselectedItemGradient)
                 .defaultShader,
+            child:
+                Text(label ?? '', style: const TextStyle(color: Colors.white)),
           )
         : Text(
             label ?? '',
@@ -95,11 +95,11 @@ class SnakeItemTile extends StatelessWidget {
     final iconWidget = selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
             blendMode: BlendMode.srcIn,
-            child: icon,
             shaderCallback: (isSelected
                     ? theme.selectedItemGradient
                     : theme.unselectedItemGradient)
                 .defaultShader,
+            child: icon,
           )
         : IconTheme(
             data: IconThemeData(
