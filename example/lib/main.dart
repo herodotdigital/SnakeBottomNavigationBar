@@ -17,20 +17,22 @@ class ExampleApp extends StatelessWidget {
 
 class SnakeNavigationBarExampleScreen extends StatefulWidget {
   @override
-  _SnakeNavigationBarExampleScreenState createState() => _SnakeNavigationBarExampleScreenState();
+  _SnakeNavigationBarExampleScreenState createState() =>
+      _SnakeNavigationBarExampleScreenState();
 }
 
-class _SnakeNavigationBarExampleScreenState extends State<SnakeNavigationBarExampleScreen> {
-  BorderRadius _borderRadius = const BorderRadius.only(
+class _SnakeNavigationBarExampleScreenState
+    extends State<SnakeNavigationBarExampleScreen> {
+  final BorderRadius _borderRadius = const BorderRadius.only(
     topLeft: Radius.circular(25),
     topRight: Radius.circular(25),
   );
 
-  ShapeBorder bottomBarShape = RoundedRectangleBorder(
+  ShapeBorder bottomBarShape = const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(25)),
   );
   SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
-  EdgeInsets padding = EdgeInsets.all(12);
+  EdgeInsets padding = const EdgeInsets.all(12);
 
   int _selectedItemPosition = 2;
   SnakeShape snakeShape = SnakeShape.circle;
@@ -39,17 +41,19 @@ class _SnakeNavigationBarExampleScreenState extends State<SnakeNavigationBarExam
   bool showUnselectedLabels = false;
 
   Color selectedColor = Colors.black;
-  Gradient selectedGradient = LinearGradient(colors: [Colors.red, Colors.amber]);
+  Gradient selectedGradient =
+      const LinearGradient(colors: [Colors.red, Colors.amber]);
 
   Color unselectedColor = Colors.blueGrey;
-  Gradient unselectedGradient = LinearGradient(colors: [Colors.red, Colors.blueGrey]);
+  Gradient unselectedGradient =
+      const LinearGradient(colors: [Colors.red, Colors.blueGrey]);
 
   Color containerColor;
   List<Color> containerColors = [
-    Color(0xFFFDE1D7),
-    Color(0xFFE4EDF5),
-    Color(0xFFF4E4CE),
-    Color(0xFFE7EEED),
+    const Color(0xFFFDE1D7),
+    const Color(0xFFE4EDF5),
+    const Color(0xFFE7EEED),
+    const Color(0xFFF4E4CE),
   ];
 
   @override
@@ -61,14 +65,16 @@ class _SnakeNavigationBarExampleScreenState extends State<SnakeNavigationBarExam
       appBar: AppBar(
         centerTitle: false,
         brightness: Brightness.light,
-        leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.black), onPressed: () {}),
-        title: Text('Go back', style: TextStyle(color: Colors.black)),
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {}),
+        title: const Text('Go back', style: TextStyle(color: Colors.black)),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
       body: AnimatedContainer(
         color: containerColor ?? containerColors[0],
-        duration: Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
         child: PageView(
           onPageChanged: _onPageChanged,
           children: <Widget>[
@@ -79,17 +85,20 @@ class _SnakeNavigationBarExampleScreenState extends State<SnakeNavigationBarExam
             ),
             PagerPageWidget(
               text: 'It comes in all shapes and sizes...',
-              description: 'Change indicator and bottom bar shape at your will.',
+              description:
+                  'Change indicator and bottom bar shape at your will.',
               image: Image.asset('images/flutter2.png'),
             ),
             PagerPageWidget(
               text: '...not only the ones you see here',
-              description: 'Combine different shapes for unique and personalized style!.',
+              description:
+                  'Combine different shapes for unique and personalized style!.',
               image: Image.asset('images/flutter3.png'),
             ),
             PagerPageWidget(
               text: 'And it\'s all open source!',
-              description: 'Get the Flutter library on github.com/herodotdigital',
+              description:
+                  'Get the Flutter library on github.com/herodotdigital',
               image: Image.asset('images/flutter4.png'),
             ),
           ],
@@ -103,7 +112,8 @@ class _SnakeNavigationBarExampleScreenState extends State<SnakeNavigationBarExam
 
         ///configuration for SnakeNavigationBar.color
         snakeViewColor: selectedColor,
-        selectedItemColor: snakeShape == SnakeShape.indicator ? selectedColor : null,
+        selectedItemColor:
+            snakeShape == SnakeShape.indicator ? selectedColor : null,
         unselectedItemColor: Colors.blueGrey,
 
         ///configuration for SnakeNavigationBar.gradient
@@ -117,25 +127,31 @@ class _SnakeNavigationBarExampleScreenState extends State<SnakeNavigationBarExam
         currentIndex: _selectedItemPosition,
         onTap: (index) => setState(() => _selectedItemPosition = index),
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'tickets'),
-          BottomNavigationBarItem(icon: Icon(CustomIcons.calendar), label: 'calendar'),
-          BottomNavigationBarItem(icon: Icon(CustomIcons.home), label: 'home'),
-          BottomNavigationBarItem(icon: Icon(CustomIcons.podcasts), label: 'microphone'),
-          BottomNavigationBarItem(icon: Icon(CustomIcons.search), label: 'search')
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.notifications), label: 'tickets'),
+          const BottomNavigationBarItem(
+              icon: Icon(CustomIcons.calendar), label: 'calendar'),
+          const BottomNavigationBarItem(
+              icon: Icon(CustomIcons.home), label: 'home'),
+          const BottomNavigationBarItem(
+              icon: Icon(CustomIcons.podcasts), label: 'microphone'),
+          const BottomNavigationBarItem(
+              icon: Icon(CustomIcons.search), label: 'search')
         ],
       ),
     );
   }
 
-  _onPageChanged(int page) {
+  void _onPageChanged(int page) {
     containerColor = containerColors[page];
     switch (page) {
       case 0:
         setState(() {
           snakeBarStyle = SnakeBarBehaviour.floating;
           snakeShape = SnakeShape.circle;
-          padding = EdgeInsets.all(12);
-          bottomBarShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(25));
+          padding = const EdgeInsets.all(12);
+          bottomBarShape =
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25));
           showSelectedLabels = false;
           showUnselectedLabels = false;
         });
@@ -179,14 +195,15 @@ class PagerPageWidget extends StatelessWidget {
   final String text;
   final String description;
   final Image image;
-  final TextStyle titleStyle = TextStyle(fontSize: 40, fontFamily: 'SourceSerifPro');
-  final TextStyle subtitleStyle = TextStyle(
+  final TextStyle titleStyle =
+      const TextStyle(fontSize: 40, fontFamily: 'SourceSerifPro');
+  final TextStyle subtitleStyle = const TextStyle(
     fontSize: 20,
     fontFamily: 'Ubuntu',
     fontWeight: FontWeight.w200,
   );
 
-  PagerPageWidget({
+  const PagerPageWidget({
     Key key,
     this.text,
     this.description,
@@ -207,7 +224,7 @@ class PagerPageWidget extends StatelessWidget {
     );
   }
 
-  _portraitWidget() {
+  Widget _portraitWidget() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -217,7 +234,7 @@ class PagerPageWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(text, style: titleStyle),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(description, style: subtitleStyle),
           ],
         ),
@@ -226,7 +243,7 @@ class PagerPageWidget extends StatelessWidget {
     );
   }
 
-  _horizontalWidget(BuildContext context) {
+  Widget _horizontalWidget(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.stretch,

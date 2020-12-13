@@ -8,15 +8,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.0
+  flutter_snake_navigationbar:
+    path: ../
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  flutter_snake_navigationbar:
-    path: ../
+  extra_pedantic: 1.2.0
 
 flutter:
   uses-material-design: true
@@ -30,12 +30,12 @@ flutter:
 
     - family: Ubuntu
       fonts:
-      - asset: fonts/Ubuntu-Regular.ttf
-      - asset: fonts/Ubuntu-Bold.ttf
-        weight: 700
-      - asset: fonts/Ubuntu-Light.ttf
-        weight: 200
+        - asset: fonts/Ubuntu-Regular.ttf
+        - asset: fonts/Ubuntu-Bold.ttf
+          weight: 700
+        - asset: fonts/Ubuntu-Light.ttf
+          weight: 200
 
     - family: IconFont
       fonts:
-      - asset: fonts/IconFont.ttf
+        - asset: fonts/IconFont.ttf

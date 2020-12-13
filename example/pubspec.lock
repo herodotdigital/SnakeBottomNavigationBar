@@ -7,14 +7,14 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0-nullsafety.2"
+    version: "2.5.0-nullsafety.1"
   boolean_selector:
     dependency: transitive
     description:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0-nullsafety.2"
+    version: "2.1.0-nullsafety.1"
   characters:
     dependency: transitive
     description:
@@ -28,7 +28,7 @@ packages:
       name: charcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0-nullsafety.2"
+    version: "1.2.0-nullsafety.1"
   clock:
     dependency: transitive
     description:
@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  extra_pedantic:
+    dependency: "direct dev"
+    description:
+      name: extra_pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   fake_async:
     dependency: transitive
     description:
@@ -63,12 +70,12 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_snake_navigationbar:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.4.1+4"
+    version: "0.4.1+5"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -80,7 +87,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10-nullsafety.2"
+    version: "0.12.10-nullsafety.1"
   meta:
     dependency: transitive
     description:
@@ -120,7 +127,7 @@ packages:
       name: stream_channel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0-nullsafety.2"
+    version: "2.1.0-nullsafety.1"
   string_scanner:
     dependency: transitive
     description:
@@ -134,7 +141,7 @@ packages:
       name: term_glyph
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0-nullsafety.2"
+    version: "1.2.0-nullsafety.1"
   test_api:
     dependency: transitive
     description:
