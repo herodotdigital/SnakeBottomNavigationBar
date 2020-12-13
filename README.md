@@ -116,5 +116,3 @@ SnakeNavigationBar has a similar API to BottomNavigationBar and uses BottomNavig
 
 
 #### !! IMPORTANT !! if you use [SnakeShape.circle] then [showSelectedLabels] parameter will be always [FALSE]
-
-    

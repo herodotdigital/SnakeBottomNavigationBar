@@ -19,3 +19,5 @@
 ## [0.4.1+3] - Fixed showSelectedLabels issue.
 
 ## [0.4.1+4] - Fixed touch sensitivity for navigation items.
+
+## [0.4.1+5] - Added RTL support.
