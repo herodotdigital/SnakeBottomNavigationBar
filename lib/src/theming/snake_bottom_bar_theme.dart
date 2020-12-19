@@ -13,7 +13,8 @@ class SnakeBottomBarTheme extends InheritedWidget {
   final SnakeBottomBarThemeData data;
 
   static SnakeBottomBarThemeData of(BuildContext context) {
-    final bottomNavTheme = context.dependOnInheritedWidgetOfExactType<SnakeBottomBarTheme>();
+    final bottomNavTheme =
+        context.dependOnInheritedWidgetOfExactType<SnakeBottomBarTheme>();
     return bottomNavTheme?.data;
   }
 

@@ -13,6 +13,7 @@ class SnakeShape {
   /// Used internal for distinction defined and custom shapes
   final SnakeShapeType type;
 
+  /// Snake view padding for each tile
   final EdgeInsets padding;
 
   const SnakeShape(
@@ -40,9 +41,7 @@ class SnakeShape {
       padding: EdgeInsets.all(4));
 
   static const SnakeShape rectangle = SnakeShape._(
-      shape: null,
-      type: SnakeShapeType.rectangle,
-      centered: false);
+      shape: null, type: SnakeShapeType.rectangle, centered: false);
 
   static const SnakeShape indicator = SnakeShape._(
       shape: null, type: SnakeShapeType.indicator, centered: false);
