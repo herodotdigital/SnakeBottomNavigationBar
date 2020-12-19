@@ -42,8 +42,7 @@ class SnakeShape {
   static const SnakeShape rectangle = SnakeShape._(
       shape: null,
       type: SnakeShapeType.rectangle,
-      centered: false,
-      padding: EdgeInsets.all(4));
+      centered: false);
 
   static const SnakeShape indicator = SnakeShape._(
       shape: null, type: SnakeShapeType.indicator, centered: false);
