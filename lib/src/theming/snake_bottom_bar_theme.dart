@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:flutter_snake_navigationbar/src/theming/selection_style.dart';
 
 class SnakeBottomBarTheme extends InheritedWidget {
   const SnakeBottomBarTheme({
@@ -26,6 +28,8 @@ class SnakeBottomBarThemeData {
   final Gradient unselectedItemGradient;
   final bool showSelectedLabels;
   final bool showUnselectedLabels;
+  final SnakeShape snakeShape;
+  final SelectionStyle selectionStyle;
   final TextStyle selectedLabelStyle;
   final TextStyle unselectedLabelStyle;
 
@@ -36,6 +40,8 @@ class SnakeBottomBarThemeData {
     @required this.unselectedItemGradient,
     @required this.showSelectedLabels,
     @required this.showUnselectedLabels,
+    @required this.snakeShape,
+    @required this.selectionStyle,
     @required this.selectedLabelStyle,
     @required this.unselectedLabelStyle,
   });

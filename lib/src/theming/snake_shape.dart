@@ -13,26 +13,39 @@ class SnakeShape {
   /// Used internal for distinction defined and custom shapes
   final SnakeShapeType type;
 
-  const SnakeShape({@required this.shape, this.centered = true})
+  final EdgeInsets padding;
+
+  const SnakeShape(
+      {@required this.shape,
+      this.centered = true,
+      this.padding = EdgeInsets.zero})
       : type = SnakeShapeType.custom;
 
-  const SnakeShape._internal({this.shape, this.type, this.centered});
+  const SnakeShape._(
+      {this.shape, this.type, this.centered, this.padding = EdgeInsets.zero});
 
-  SnakeShape copyWith({ShapeBorder shape, bool centered}) {
-    return SnakeShape._internal(
+  SnakeShape copyWith({ShapeBorder shape, bool centered, EdgeInsets padding}) {
+    return SnakeShape._(
       shape: shape ?? this.shape,
       type: type,
       centered: centered ?? this.centered,
+      padding: padding ?? this.padding,
     );
   }
 
-  static const SnakeShape circle = SnakeShape._internal(
-      shape: null, type: SnakeShapeType.circle, centered: false);
+  static const SnakeShape circle = SnakeShape._(
+      shape: null,
+      type: SnakeShapeType.circle,
+      centered: false,
+      padding: EdgeInsets.all(4));
 
-  static const SnakeShape rectangle = SnakeShape._internal(
-      shape: null, type: SnakeShapeType.rectangle, centered: false);
+  static const SnakeShape rectangle = SnakeShape._(
+      shape: null,
+      type: SnakeShapeType.rectangle,
+      centered: false,
+      padding: EdgeInsets.all(4));
 
-  static const SnakeShape indicator = SnakeShape._internal(
+  static const SnakeShape indicator = SnakeShape._(
       shape: null, type: SnakeShapeType.indicator, centered: false);
 }
 

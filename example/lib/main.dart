@@ -138,6 +138,8 @@ class _SnakeNavigationBarExampleScreenState
           const BottomNavigationBarItem(
               icon: Icon(CustomIcons.search), label: 'search')
         ],
+        selectedLabelStyle: const TextStyle(fontSize: 14),
+        unselectedLabelStyle: const TextStyle(fontSize: 10),
       ),
     );
   }
