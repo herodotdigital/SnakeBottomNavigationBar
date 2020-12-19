@@ -12,15 +12,19 @@ class SnakeItemTile extends StatelessWidget {
   final SelectionNotifier notifier;
   final SelectionStyle selectionStyle;
   final bool isIndicatorStyle;
+  final TextStyle selectedLabelStyle;
+  final TextStyle unselectedLabelStyle;
 
-  const SnakeItemTile(
+  const SnakeItemTile({
     this.icon,
     this.label,
     this.position,
     this.notifier,
     this.selectionStyle,
     this.isIndicatorStyle,
-  );
+    this.selectedLabelStyle,
+    this.unselectedLabelStyle,
+  });
 
   bool get isSelected => notifier.currentIndex == position;
 
@@ -36,13 +40,9 @@ class SnakeItemTile extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraint) {
               if (isSelected) {
-                return theme.showSelectedLabels
-                    ? _getLabeledItem(theme)
-                    : _getThemedIcon(theme);
+                return theme.showSelectedLabels ? _getLabeledItem(theme) : _getThemedIcon(theme);
               } else {
-                return theme.showUnselectedLabels
-                    ? _getLabeledItem(theme)
-                    : _getThemedIcon(theme);
+                return theme.showUnselectedLabels ? _getLabeledItem(theme) : _getThemedIcon(theme);
               }
             },
           ),
@@ -65,18 +65,16 @@ class SnakeItemTile extends StatelessWidget {
   }
 
   Widget _getThemedTitle(SnakeBottomBarThemeData theme) {
+    final textTheme = (isSelected ? selectedLabelStyle : unselectedLabelStyle) ?? const TextStyle();
     final labelWidget = selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
-            shaderCallback: (isSelected
-                    ? theme.selectedItemGradient
-                    : theme.unselectedItemGradient)
+            shaderCallback: (isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient)
                 .defaultShader,
-            child:
-                Text(label ?? '', style: const TextStyle(color: Colors.white)),
+            child: Text(label ?? '', style: textTheme.copyWith(color: Colors.white)),
           )
         : Text(
             label ?? '',
-            style: TextStyle(
+            style: textTheme.copyWith(
               color: isSelected
                   ? theme.selectedItemGradient.colors.first
                   : theme.unselectedItemGradient.colors.first,
@@ -95,9 +93,7 @@ class SnakeItemTile extends StatelessWidget {
     final iconWidget = selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
             blendMode: BlendMode.srcIn,
-            shaderCallback: (isSelected
-                    ? theme.selectedItemGradient
-                    : theme.unselectedItemGradient)
+            shaderCallback: (isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient)
                 .defaultShader,
             child: icon,
           )

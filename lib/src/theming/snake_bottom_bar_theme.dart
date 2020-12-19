@@ -11,14 +11,12 @@ class SnakeBottomBarTheme extends InheritedWidget {
   final SnakeBottomBarThemeData data;
 
   static SnakeBottomBarThemeData of(BuildContext context) {
-    final bottomNavTheme =
-        context.dependOnInheritedWidgetOfExactType<SnakeBottomBarTheme>();
+    final bottomNavTheme = context.dependOnInheritedWidgetOfExactType<SnakeBottomBarTheme>();
     return bottomNavTheme?.data;
   }
 
   @override
-  bool updateShouldNotify(SnakeBottomBarTheme oldWidget) =>
-      data != oldWidget.data;
+  bool updateShouldNotify(SnakeBottomBarTheme oldWidget) => false;
 }
 
 class SnakeBottomBarThemeData {
@@ -28,6 +26,8 @@ class SnakeBottomBarThemeData {
   final Gradient unselectedItemGradient;
   final bool showSelectedLabels;
   final bool showUnselectedLabels;
+  final TextStyle selectedLabelStyle;
+  final TextStyle unselectedLabelStyle;
 
   SnakeBottomBarThemeData({
     @required this.snakeGradient,
@@ -36,5 +36,7 @@ class SnakeBottomBarThemeData {
     @required this.unselectedItemGradient,
     @required this.showSelectedLabels,
     @required this.showUnselectedLabels,
+    @required this.selectedLabelStyle,
+    @required this.unselectedLabelStyle,
   });
 }
