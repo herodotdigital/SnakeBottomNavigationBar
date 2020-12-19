@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/src/theming/snake_bottom_bar_theme.dart';
 import 'package:flutter_snake_navigationbar/src/theming/snake_shape.dart';
+
 import 'selection_notifier.dart';
 
 class SnakeView extends StatefulWidget {
   final int itemsCount;
-  final SnakeShape shape;
   final double widgetEdgePadding;
   final SelectionNotifier notifier;
   final Duration animationDuration;
   final Duration delayTransition;
   final Curve snakeCurve;
-  final double circlePadding;
   final double indicatorHeight;
 
   const SnakeView({
     @required this.itemsCount,
-    @required this.shape,
     @required this.widgetEdgePadding,
     @required this.notifier,
     this.animationDuration = const Duration(milliseconds: 200),
     this.delayTransition = const Duration(milliseconds: 50),
     this.snakeCurve = Curves.easeInOut,
-    this.circlePadding = 4,
     this.indicatorHeight = 4,
   });
 
@@ -40,12 +37,7 @@ class _SnakeViewState extends State<SnakeView> {
 
   bool get isRTL => Directionality.of(context) == TextDirection.rtl;
 
-  @override
-  Widget build(BuildContext context) {
-    oneItemWidth =
-        (MediaQuery.of(context).size.width - widget.widgetEdgePadding) /
-            widget.itemsCount;
-
+  void addListener() {
     widget.notifier.addListener(() {
       if (widget.notifier.lastIndex < widget.notifier.currentIndex) {
         _goRight();
@@ -54,6 +46,16 @@ class _SnakeViewState extends State<SnakeView> {
       }
       currentIndex = widget.notifier.currentIndex;
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = SnakeBottomBarTheme.of(context);
+    oneItemWidth =
+        (MediaQuery.of(context).size.width - widget.widgetEdgePadding) /
+            widget.itemsCount;
+
+    addListener();
 
     if (currentIndex == null ||
         currentIndex != widget.notifier.currentIndex ||
@@ -65,40 +67,41 @@ class _SnakeViewState extends State<SnakeView> {
       prevItemWidth = oneItemWidth;
     }
 
-    final viewPadding = widget.shape.type == SnakeShapeType.circle ||
-            widget.shape.centered
-        ? EdgeInsets.symmetric(
-            vertical: widget.circlePadding,
-            horizontal: (oneItemWidth -
-                    (kBottomNavigationBarHeight - widget.circlePadding * 2)) /
+    final viewPadding = theme.snakeShape.type == SnakeShapeType.circle ||
+            theme.snakeShape.centered
+        ? EdgeInsets.only(
+            top: theme.snakeShape.padding?.top,
+            bottom: theme.snakeShape.padding?.bottom,
+            left: (oneItemWidth -
+                    (kBottomNavigationBarHeight -
+                        (theme.snakeShape.padding?.horizontal ?? 0.0))) /
+                2,
+            right: (oneItemWidth -
+                    (kBottomNavigationBarHeight -
+                        (theme.snakeShape.padding?.horizontal ?? 0.0))) /
                 2,
           )
-        : EdgeInsets.zero;
+        : theme.snakeShape.padding;
 
-    final snakeViewWidth =
-        widget.shape.type == SnakeShapeType.circle || widget.shape.centered
-            ? oneItemWidth * snakeSize - (viewPadding.left + viewPadding.right)
-            : oneItemWidth * snakeSize;
+    final snakeViewWidth = oneItemWidth * snakeSize - viewPadding.horizontal;
 
     return AnimatedPositioned(
       left: isRTL ? null : left,
       right: isRTL ? left : null,
       duration: widget.animationDuration,
       curve: widget.snakeCurve,
-      child: AnimatedPadding(
+      child: AnimatedContainer(
+        margin: viewPadding,
+        curve: widget.snakeCurve,
         duration: widget.animationDuration,
-        padding: viewPadding,
-        child: AnimatedContainer(
-          curve: widget.snakeCurve,
-          duration: widget.animationDuration,
-          width: snakeViewWidth,
-          height: _snakeViewHeight(),
-          child: Material(
-            shape: _snakeShape(),
-            clipBehavior: Clip.antiAlias,
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: SnakeBottomBarTheme.of(context).snakeGradient),
+        width: snakeViewWidth,
+        height: _snakeViewHeight(theme),
+        child: Material(
+          shape: _snakeShape(theme),
+          clipBehavior: Clip.antiAlias,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: SnakeBottomBarTheme.of(context).snakeGradient,
             ),
           ),
         ),
@@ -106,33 +109,19 @@ class _SnakeViewState extends State<SnakeView> {
     );
   }
 
-  double _snakeViewHeight() {
-    switch (widget.shape.type) {
-      case SnakeShapeType.circle:
-        return kBottomNavigationBarHeight - widget.circlePadding * 2;
-        break;
-      case SnakeShapeType.rectangle:
-        return kBottomNavigationBarHeight;
-        break;
-      case SnakeShapeType.indicator:
-        return widget.indicatorHeight;
-        break;
-      case SnakeShapeType.custom:
-        return widget.shape.centered
-            ? kBottomNavigationBarHeight - widget.circlePadding * 2
-            : kBottomNavigationBarHeight;
-        break;
-    }
-    return -1;
+  double _snakeViewHeight(SnakeBottomBarThemeData theme) {
+    return theme.snakeShape.type == SnakeShapeType.indicator
+        ? widget.indicatorHeight
+        : kBottomNavigationBarHeight - theme.snakeShape.padding.vertical;
   }
 
-  ShapeBorder _snakeShape() {
-    switch (widget.shape.type) {
+  ShapeBorder _snakeShape(SnakeBottomBarThemeData theme) {
+    switch (theme.snakeShape.type) {
       case SnakeShapeType.circle:
-        return _getRoundShape(_snakeViewHeight() / 2);
+        return _getRoundShape(_snakeViewHeight(theme) / 2);
         break;
       default:
-        return widget.shape.shape;
+        return theme.snakeShape.shape;
         break;
     }
   }
@@ -164,5 +153,6 @@ class _SnakeViewState extends State<SnakeView> {
   }
 
   ShapeBorder _getRoundShape(double radius) => RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(radius)));
+        borderRadius: BorderRadius.all(Radius.circular(radius)),
+      );
 }

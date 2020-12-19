@@ -10,7 +10,7 @@ class SelectionNotifier extends ChangeNotifier {
   void selectIndex(int index) {
     lastIndex = currentIndex;
     currentIndex = index;
-    onTap(index);
+    onTap?.call(index);
     notifyListeners();
   }
 }

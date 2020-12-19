@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'selection_notifier.dart';
+import '../flutter_snake_navigationbar.dart';
 import 'theming/selection_style.dart';
 import 'theming/snake_bottom_bar_theme.dart';
 import 'utils/extensions.dart';
@@ -9,20 +9,19 @@ class SnakeItemTile extends StatelessWidget {
   final Widget icon;
   final String label;
   final int position;
-  final SelectionNotifier notifier;
-  final SelectionStyle selectionStyle;
-  final bool isIndicatorStyle;
+  final bool isSelected;
+  final VoidCallback onTap;
 
-  const SnakeItemTile(
+  const SnakeItemTile({
     this.icon,
     this.label,
     this.position,
-    this.notifier,
-    this.selectionStyle,
-    this.isIndicatorStyle,
-  );
+    this.isSelected,
+    this.onTap,
+  });
 
-  bool get isSelected => notifier.currentIndex == position;
+  bool isIndicatorStyle(SnakeBottomBarThemeData theme) =>
+      theme.snakeShape.type == SnakeShapeType.indicator;
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +29,22 @@ class SnakeItemTile extends StatelessWidget {
 
     return Expanded(
       child: GestureDetector(
-        onTap: () => notifier.selectIndex(position),
+        onTap: onTap,
         behavior: HitTestBehavior.translucent,
         child: Center(
-          child: LayoutBuilder(
-            builder: (context, constraint) {
+          child: Container(
+            margin: theme.snakeShape.padding,
+            child: () {
               if (isSelected) {
-                return theme.showSelectedLabels
+                return theme.showSelectedLabels && label != null
                     ? _getLabeledItem(theme)
                     : _getThemedIcon(theme);
               } else {
-                return theme.showUnselectedLabels
+                return theme.showUnselectedLabels && label != null
                     ? _getLabeledItem(theme)
                     : _getThemedIcon(theme);
               }
-            },
+            }(),
           ),
         ),
       ),
@@ -52,68 +52,61 @@ class SnakeItemTile extends StatelessWidget {
   }
 
   Widget _getLabeledItem(SnakeBottomBarThemeData theme) {
-    return label != null
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _getThemedIcon(theme),
-              const SizedBox(height: 1),
-              _getThemedTitle(theme),
-            ],
-          )
-        : _getThemedIcon(theme);
-  }
-
-  Widget _getThemedTitle(SnakeBottomBarThemeData theme) {
-    final labelWidget = selectionStyle == SelectionStyle.gradient
-        ? ShaderMask(
-            shaderCallback: (isSelected
-                    ? theme.selectedItemGradient
-                    : theme.unselectedItemGradient)
-                .defaultShader,
-            child:
-                Text(label ?? '', style: const TextStyle(color: Colors.white)),
-          )
-        : Text(
-            label ?? '',
-            style: TextStyle(
-              color: isSelected
-                  ? theme.selectedItemGradient.colors.first
-                  : theme.unselectedItemGradient.colors.first,
-            ),
-          );
-
-    return isIndicatorStyle
-        ? Opacity(
-            opacity: isSelected ? 1 : 0.6,
-            child: labelWidget,
-          )
-        : labelWidget;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _getThemedIcon(theme),
+        const SizedBox(height: 1),
+        _getThemedTitle(theme),
+      ],
+    );
   }
 
   Widget _getThemedIcon(SnakeBottomBarThemeData theme) {
-    final iconWidget = selectionStyle == SelectionStyle.gradient
+    final itemGradient =
+        isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient;
+    final iconWidget = theme.selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
             blendMode: BlendMode.srcIn,
-            shaderCallback: (isSelected
-                    ? theme.selectedItemGradient
-                    : theme.unselectedItemGradient)
-                .defaultShader,
+            shaderCallback: itemGradient.defaultShader,
             child: icon,
           )
         : IconTheme(
-            data: IconThemeData(
-              color: isSelected
-                  ? theme.selectedItemGradient.colors.first
-                  : theme.unselectedItemGradient.colors.first,
-            ),
+            data: IconThemeData(color: itemGradient.colors.first),
             child: icon,
           );
-    return isIndicatorStyle
+
+    return isIndicatorStyle(theme)
         ? Opacity(
             opacity: isSelected ? 1 : 0.6,
             child: iconWidget,
           )
         : iconWidget;
+  }
+
+  Widget _getThemedTitle(SnakeBottomBarThemeData theme) {
+    final textTheme =
+        (isSelected ? theme.selectedLabelStyle : theme.unselectedLabelStyle) ??
+            const TextStyle();
+    final itemGradient =
+        isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient;
+
+    final labelWidget = theme.selectionStyle == SelectionStyle.gradient
+        ? ShaderMask(
+            shaderCallback: itemGradient.defaultShader,
+            child: Text(label ?? '',
+                style: textTheme.copyWith(color: Colors.white)),
+          )
+        : Text(
+            label ?? '',
+            style: textTheme.copyWith(color: itemGradient.colors.first),
+          );
+
+    return isIndicatorStyle(theme)
+        ? Opacity(
+            opacity: isSelected ? 1 : 0.6,
+            child: labelWidget,
+          )
+        : labelWidget;
   }
 }

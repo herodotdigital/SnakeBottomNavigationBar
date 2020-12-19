@@ -21,3 +21,5 @@
 ## [0.4.1+4] - Fixed touch sensitivity for navigation items.
 
 ## [0.4.1+5] - Added RTL support.
+
+## [0.4.2] - Added selectedLabelStyle and unselectedLabelStyle. Also added snake view padding in SnakeShape for each Tile
