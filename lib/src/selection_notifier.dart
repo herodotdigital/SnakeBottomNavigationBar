@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 class SelectionNotifier extends ChangeNotifier {
-  int lastIndex;
+  late int lastIndex;
   int currentIndex;
-  final ValueChanged<int> onTap;
+  final ValueChanged<int>? onTap;
 
   SelectionNotifier(this.currentIndex, this.onTap);
 

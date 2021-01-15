@@ -4,15 +4,14 @@ import 'package:flutter_snake_navigationbar/src/theming/selection_style.dart';
 
 class SnakeBottomBarTheme extends InheritedWidget {
   const SnakeBottomBarTheme({
-    @required this.data,
-    Key key,
-    Widget child,
-  })  : assert(data != null),
-        super(key: key, child: child);
+    required this.data,
+    Key? key,
+    required Widget child,
+  }) : super(key: key, child: child);
 
   final SnakeBottomBarThemeData data;
 
-  static SnakeBottomBarThemeData of(BuildContext context) {
+  static SnakeBottomBarThemeData? of(BuildContext context) {
     final bottomNavTheme =
         context.dependOnInheritedWidgetOfExactType<SnakeBottomBarTheme>();
     return bottomNavTheme?.data;
@@ -31,19 +30,19 @@ class SnakeBottomBarThemeData {
   final bool showUnselectedLabels;
   final SnakeShape snakeShape;
   final SelectionStyle selectionStyle;
-  final TextStyle selectedLabelStyle;
-  final TextStyle unselectedLabelStyle;
+  final TextStyle? selectedLabelStyle;
+  final TextStyle? unselectedLabelStyle;
 
   SnakeBottomBarThemeData({
-    @required this.snakeGradient,
-    @required this.backgroundGradient,
-    @required this.selectedItemGradient,
-    @required this.unselectedItemGradient,
-    @required this.showSelectedLabels,
-    @required this.showUnselectedLabels,
-    @required this.snakeShape,
-    @required this.selectionStyle,
-    @required this.selectedLabelStyle,
-    @required this.unselectedLabelStyle,
+    required this.snakeGradient,
+    required this.backgroundGradient,
+    required this.selectedItemGradient,
+    required this.unselectedItemGradient,
+    required this.showSelectedLabels,
+    required this.showUnselectedLabels,
+    required this.snakeShape,
+    required this.selectionStyle,
+    required this.selectedLabelStyle,
+    required this.unselectedLabelStyle,
   });
 }
