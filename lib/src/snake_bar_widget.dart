@@ -10,23 +10,23 @@ import 'theming/snake_bottom_bar_theme.dart';
 import 'utils/extensions.dart';
 
 class SnakeNavigationBar extends StatelessWidget {
-  final List<BottomNavigationBarItem> items;
+  final List<BottomNavigationBarItem>? items;
 
   /// If [SnakeBarBehaviour.floating] this color is
   /// used as background color of shaped view.
   /// If [SnakeBarBehaviour.pinned] this color just
   /// a background color of whole [SnakeNavigationBar] view
-  final Gradient backgroundGradient;
+  final Gradient? backgroundGradient;
 
   /// This color represents a SnakeView and unselected
   /// Icon and label color
-  final Gradient snakeViewGradient;
+  final Gradient? snakeViewGradient;
 
   /// This color represents a selected Icon color
-  final Gradient selectedItemGradient;
+  final Gradient? selectedItemGradient;
 
   /// This color represents a unselected Icon color
-  final Gradient unselectedItemGradient;
+  final Gradient? unselectedItemGradient;
 
   /// Whether the labels are shown for the selected [BottomNavigationBarItem].
   final bool showSelectedLabels;
@@ -57,27 +57,27 @@ class SnakeNavigationBar extends StatelessWidget {
   final SnakeBarBehaviour behaviour;
 
   /// You can define custom [ShapeBorder] with padding and elevation to [SnakeNavigationBar]
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
   final EdgeInsets padding;
   final double elevation;
 
   /// The [TextStyle] of the [BottomNavigationBarItem] labels when they are
   /// selected.
-  final TextStyle selectedLabelStyle;
+  final TextStyle? selectedLabelStyle;
 
   /// The [TextStyle] of the [BottomNavigationBarItem] labels when they are not
   /// selected.
-  final TextStyle unselectedLabelStyle;
+  final TextStyle? unselectedLabelStyle;
 
   /// Called when one of the [items] is pressed.
-  final ValueChanged<int> onTap;
+  final ValueChanged<int>? onTap;
 
   // final SelectionNotifier _notifier;
   final SelectionStyle _selectionStyle;
 
   SnakeNavigationBar._(
     this._selectionStyle, {
-    Key key,
+    Key? key,
     this.snakeViewGradient,
     this.backgroundGradient,
     this.selectedItemGradient,
@@ -102,24 +102,24 @@ class SnakeNavigationBar extends StatelessWidget {
         super(key: key);
 
   factory SnakeNavigationBar.color({
-    Key key,
-    Color snakeViewColor,
-    Color backgroundColor,
-    Color selectedItemColor,
-    Color unselectedItemColor,
+    Key? key,
+    Color? snakeViewColor,
+    Color? backgroundColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
     bool showSelectedLabels = false,
     bool showUnselectedLabels = false,
-    List<BottomNavigationBarItem> items,
+    List<BottomNavigationBarItem>? items,
     int currentIndex = 0,
-    ShapeBorder shape,
+    ShapeBorder? shape,
     EdgeInsets padding = EdgeInsets.zero,
     double elevation = 0.0,
-    ValueChanged<int> onTap,
+    ValueChanged<int>? onTap,
     SnakeBarBehaviour behaviour = SnakeBarBehaviour.pinned,
     SnakeShape snakeShape = SnakeShape.circle,
     Color shadowColor = Colors.black,
-    TextStyle selectedLabelStyle,
-    TextStyle unselectedLabelStyle,
+    TextStyle? selectedLabelStyle,
+    TextStyle? unselectedLabelStyle,
   }) =>
       SnakeNavigationBar._(
         SelectionStyle.color,
@@ -128,40 +128,40 @@ class SnakeNavigationBar extends StatelessWidget {
         backgroundGradient: backgroundColor?.toGradient,
         selectedItemGradient: selectedItemColor?.toGradient,
         unselectedItemGradient: unselectedItemColor?.toGradient,
-        showSelectedLabels: showSelectedLabels ?? false,
-        showUnselectedLabels: showUnselectedLabels ?? false,
+        showSelectedLabels: showSelectedLabels,
+        showUnselectedLabels: showUnselectedLabels,
         items: items,
-        currentIndex: currentIndex ?? 0,
+        currentIndex: currentIndex,
         shape: shape,
-        padding: padding ?? EdgeInsets.zero,
-        elevation: elevation ?? 0.0,
+        padding: padding,
+        elevation: elevation,
         onTap: onTap,
-        behaviour: behaviour ?? SnakeBarBehaviour.pinned,
-        snakeShape: snakeShape ?? SnakeShape.circle,
-        shadowColor: shadowColor ?? Colors.black,
+        behaviour: behaviour,
+        snakeShape: snakeShape,
+        shadowColor: shadowColor,
         selectedLabelStyle: selectedLabelStyle,
         unselectedLabelStyle: unselectedLabelStyle,
       );
 
   factory SnakeNavigationBar.gradient({
-    Key key,
-    Gradient snakeViewGradient,
-    Gradient backgroundGradient,
-    Gradient selectedItemGradient,
-    Gradient unselectedItemGradient,
+    Key? key,
+    Gradient? snakeViewGradient,
+    Gradient? backgroundGradient,
+    Gradient? selectedItemGradient,
+    Gradient? unselectedItemGradient,
     bool showSelectedLabels = false,
     bool showUnselectedLabels = false,
-    List<BottomNavigationBarItem> items,
+    List<BottomNavigationBarItem>? items,
     int currentIndex = 0,
-    ShapeBorder shape,
+    ShapeBorder? shape,
     EdgeInsets padding = EdgeInsets.zero,
     double elevation = 0.0,
-    ValueChanged<int> onTap,
+    ValueChanged<int>? onTap,
     SnakeBarBehaviour behaviour = SnakeBarBehaviour.pinned,
     SnakeShape snakeShape = SnakeShape.circle,
     Color shadowColor = Colors.black,
-    TextStyle selectedLabelStyle,
-    TextStyle unselectedLabelStyle,
+    TextStyle? selectedLabelStyle,
+    TextStyle? unselectedLabelStyle,
   }) =>
       SnakeNavigationBar._(
         SelectionStyle.gradient,
@@ -170,17 +170,17 @@ class SnakeNavigationBar extends StatelessWidget {
         backgroundGradient: backgroundGradient,
         selectedItemGradient: selectedItemGradient,
         unselectedItemGradient: unselectedItemGradient,
-        showSelectedLabels: showSelectedLabels ?? false,
-        showUnselectedLabels: showUnselectedLabels ?? false,
+        showSelectedLabels: showSelectedLabels,
+        showUnselectedLabels: showUnselectedLabels,
         items: items,
-        currentIndex: currentIndex ?? 0,
+        currentIndex: currentIndex,
         shape: shape,
-        padding: padding ?? EdgeInsets.zero,
-        elevation: elevation ?? 0.0,
+        padding: padding,
+        elevation: elevation,
         onTap: onTap,
-        behaviour: behaviour ?? SnakeBarBehaviour.pinned,
-        snakeShape: snakeShape ?? SnakeShape.circle,
-        shadowColor: shadowColor ?? Colors.black,
+        behaviour: behaviour,
+        snakeShape: snakeShape,
+        shadowColor: shadowColor,
         selectedLabelStyle: selectedLabelStyle,
         unselectedLabelStyle: unselectedLabelStyle,
       );
@@ -189,20 +189,18 @@ class SnakeNavigationBar extends StatelessWidget {
     final theme = BottomNavigationBarTheme.of(context);
     return SnakeBottomBarThemeData(
       snakeGradient:
-          snakeViewGradient ?? Theme.of(context).accentColor?.toGradient,
+          snakeViewGradient ?? Theme.of(context).accentColor.toGradient,
       backgroundGradient: backgroundGradient ??
           theme.backgroundColor?.toGradient ??
-          Theme.of(context).cardColor?.toGradient,
+          Theme.of(context).cardColor.toGradient,
       selectedItemGradient: selectedItemGradient ??
           theme.selectedItemColor?.toGradient ??
-          Theme.of(context).cardColor?.toGradient,
+          Theme.of(context).cardColor.toGradient,
       unselectedItemGradient: unselectedItemGradient ??
           theme.unselectedItemColor?.toGradient ??
-          Theme.of(context).accentColor?.toGradient,
-      showSelectedLabels:
-          showSelectedLabels ?? theme.showSelectedLabels ?? true,
-      showUnselectedLabels:
-          showUnselectedLabels ?? theme.showUnselectedLabels ?? true,
+          Theme.of(context).accentColor.toGradient,
+      showSelectedLabels: showSelectedLabels,
+      showUnselectedLabels: showUnselectedLabels,
       snakeShape: snakeShape,
       selectionStyle: _selectionStyle,
       selectedLabelStyle: selectedLabelStyle,
@@ -231,27 +229,27 @@ class _SnakeNavigationBar extends StatelessWidget {
   final EdgeInsets padding;
   final double elevation;
   final Color shadowColor;
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
   final SnakeBarBehaviour behaviour;
-  final List<BottomNavigationBarItem> items;
+  final List<BottomNavigationBarItem>? items;
   final SelectionNotifier notifier;
 
   const _SnakeNavigationBar({
-    Key key,
-    @required this.padding,
-    @required this.elevation,
-    @required this.shadowColor,
-    @required this.shape,
-    @required this.behaviour,
-    @required this.items,
-    @required this.notifier,
+    Key? key,
+    required this.padding,
+    required this.elevation,
+    required this.shadowColor,
+    required this.shape,
+    required this.behaviour,
+    required this.items,
+    required this.notifier,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = SnakeBottomBarTheme.of(context);
+    final theme = SnakeBottomBarTheme.of(context)!;
 
-    final List<Widget> tiles = items
+    final List<Widget> tiles = items!
         .mapIndexed((index, item) => SnakeItemTile(
               icon: item.icon,
               label: item.label,
@@ -283,7 +281,7 @@ class _SnakeNavigationBar extends StatelessWidget {
                 child: Stack(
                   children: [
                     SnakeView(
-                      itemsCount: items.length,
+                      itemsCount: items!.length,
                       widgetEdgePadding: padding.left + padding.right,
                       notifier: notifier,
                     ),

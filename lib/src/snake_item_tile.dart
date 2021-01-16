@@ -6,11 +6,11 @@ import 'theming/snake_bottom_bar_theme.dart';
 import 'utils/extensions.dart';
 
 class SnakeItemTile extends StatelessWidget {
-  final Widget icon;
-  final String label;
-  final int position;
-  final bool isSelected;
-  final VoidCallback onTap;
+  final Widget? icon;
+  final String? label;
+  final int? position;
+  final bool? isSelected;
+  final VoidCallback? onTap;
 
   const SnakeItemTile({
     this.icon,
@@ -25,7 +25,7 @@ class SnakeItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = SnakeBottomBarTheme.of(context);
+    final theme = SnakeBottomBarTheme.of(context)!;
 
     return Expanded(
       child: GestureDetector(
@@ -35,7 +35,7 @@ class SnakeItemTile extends StatelessWidget {
           child: Container(
             margin: theme.snakeShape.padding,
             child: () {
-              if (isSelected) {
+              if (isSelected!) {
                 return theme.showSelectedLabels && label != null
                     ? _getLabeledItem(theme)
                     : _getThemedIcon(theme);
@@ -64,7 +64,7 @@ class SnakeItemTile extends StatelessWidget {
 
   Widget _getThemedIcon(SnakeBottomBarThemeData theme) {
     final itemGradient =
-        isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient;
+        isSelected! ? theme.selectedItemGradient : theme.unselectedItemGradient;
     final iconWidget = theme.selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
             blendMode: BlendMode.srcIn,
@@ -73,12 +73,12 @@ class SnakeItemTile extends StatelessWidget {
           )
         : IconTheme(
             data: IconThemeData(color: itemGradient.colors.first),
-            child: icon,
+            child: icon!,
           );
 
     return isIndicatorStyle(theme)
         ? Opacity(
-            opacity: isSelected ? 1 : 0.6,
+            opacity: isSelected! ? 1 : 0.6,
             child: iconWidget,
           )
         : iconWidget;
@@ -86,10 +86,10 @@ class SnakeItemTile extends StatelessWidget {
 
   Widget _getThemedTitle(SnakeBottomBarThemeData theme) {
     final textTheme =
-        (isSelected ? theme.selectedLabelStyle : theme.unselectedLabelStyle) ??
+        (isSelected! ? theme.selectedLabelStyle : theme.unselectedLabelStyle) ??
             const TextStyle();
     final itemGradient =
-        isSelected ? theme.selectedItemGradient : theme.unselectedItemGradient;
+        isSelected! ? theme.selectedItemGradient : theme.unselectedItemGradient;
 
     final labelWidget = theme.selectionStyle == SelectionStyle.gradient
         ? ShaderMask(
@@ -104,7 +104,7 @@ class SnakeItemTile extends StatelessWidget {
 
     return isIndicatorStyle(theme)
         ? Opacity(
-            opacity: isSelected ? 1 : 0.6,
+            opacity: isSelected! ? 1 : 0.6,
             child: labelWidget,
           )
         : labelWidget;
