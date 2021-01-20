@@ -72,8 +72,10 @@ class SnakeNavigationBar extends StatelessWidget {
   /// Called when one of the [items] is pressed.
   final ValueChanged<int> onTap;
 
-  // final SelectionNotifier _notifier;
   final SelectionStyle _selectionStyle;
+
+  /// BottomNavigationBar height default is [kBottomNavigationBarHeight]
+  final double height;
 
   SnakeNavigationBar._(
     this._selectionStyle, {
@@ -95,6 +97,7 @@ class SnakeNavigationBar extends StatelessWidget {
     this.shadowColor = Colors.black,
     this.selectedLabelStyle,
     this.unselectedLabelStyle,
+    this.height,
   })  : showSelectedLabels =
             (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
                 ? false
@@ -120,6 +123,7 @@ class SnakeNavigationBar extends StatelessWidget {
     Color shadowColor = Colors.black,
     TextStyle selectedLabelStyle,
     TextStyle unselectedLabelStyle,
+    double height,
   }) =>
       SnakeNavigationBar._(
         SelectionStyle.color,
@@ -141,6 +145,7 @@ class SnakeNavigationBar extends StatelessWidget {
         shadowColor: shadowColor ?? Colors.black,
         selectedLabelStyle: selectedLabelStyle,
         unselectedLabelStyle: unselectedLabelStyle,
+        height: height ?? kBottomNavigationBarHeight,
       );
 
   factory SnakeNavigationBar.gradient({
@@ -162,6 +167,7 @@ class SnakeNavigationBar extends StatelessWidget {
     Color shadowColor = Colors.black,
     TextStyle selectedLabelStyle,
     TextStyle unselectedLabelStyle,
+    double height,
   }) =>
       SnakeNavigationBar._(
         SelectionStyle.gradient,
@@ -183,6 +189,7 @@ class SnakeNavigationBar extends StatelessWidget {
         shadowColor: shadowColor ?? Colors.black,
         selectedLabelStyle: selectedLabelStyle,
         unselectedLabelStyle: unselectedLabelStyle,
+        height: height ?? kBottomNavigationBarHeight,
       );
 
   SnakeBottomBarThemeData _createTheme(BuildContext context) {
@@ -221,6 +228,7 @@ class SnakeNavigationBar extends StatelessWidget {
         shape: shape,
         behaviour: behaviour,
         items: items,
+        height: height,
         notifier: SelectionNotifier(currentIndex, onTap),
       ),
     );
@@ -230,6 +238,7 @@ class SnakeNavigationBar extends StatelessWidget {
 class _SnakeNavigationBar extends StatelessWidget {
   final EdgeInsets padding;
   final double elevation;
+  final double height;
   final Color shadowColor;
   final ShapeBorder shape;
   final SnakeBarBehaviour behaviour;
@@ -245,6 +254,7 @@ class _SnakeNavigationBar extends StatelessWidget {
     @required this.behaviour,
     @required this.items,
     @required this.notifier,
+    @required this.height,
   }) : super(key: key);
 
   @override
@@ -279,10 +289,11 @@ class _SnakeNavigationBar extends StatelessWidget {
               child: AnimatedContainer(
                 duration: kThemeChangeDuration,
                 decoration: BoxDecoration(gradient: theme.backgroundGradient),
-                height: kBottomNavigationBarHeight,
+                height: height,
                 child: Stack(
                   children: [
                     SnakeView(
+                      height: height,
                       itemsCount: items.length,
                       widgetEdgePadding: padding.left + padding.right,
                       notifier: notifier,

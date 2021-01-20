@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/src/theming/snake_bottom_bar_theme.dart';
 import 'package:flutter_snake_navigationbar/src/theming/snake_shape.dart';
@@ -12,6 +14,7 @@ class SnakeView extends StatefulWidget {
   final Duration delayTransition;
   final Curve snakeCurve;
   final double indicatorHeight;
+  final double height;
 
   const SnakeView({
     @required this.itemsCount,
@@ -21,6 +24,7 @@ class SnakeView extends StatefulWidget {
     this.delayTransition = const Duration(milliseconds: 50),
     this.snakeCurve = Curves.easeInOut,
     this.indicatorHeight = 4,
+    this.height,
   });
 
   @override
@@ -69,18 +73,14 @@ class _SnakeViewState extends State<SnakeView> {
 
     final viewPadding = theme.snakeShape.type == SnakeShapeType.circle ||
             theme.snakeShape.centered
-        ? EdgeInsets.only(
-            top: theme.snakeShape.padding?.top,
-            bottom: theme.snakeShape.padding?.bottom,
-            left: (oneItemWidth -
-                    (kBottomNavigationBarHeight -
-                        (theme.snakeShape.padding?.horizontal ?? 0.0))) /
-                2,
-            right: (oneItemWidth -
-                    (kBottomNavigationBarHeight -
-                        (theme.snakeShape.padding?.horizontal ?? 0.0))) /
-                2,
-          )
+        ? () {
+            final maxSize = math.min(oneItemWidth, widget.height);
+            return EdgeInsets.symmetric(
+                  vertical: (widget.height - maxSize) / 2,
+                  horizontal: (oneItemWidth - maxSize) / 2,
+                ) +
+                theme.snakeShape.padding;
+          }()
         : theme.snakeShape.padding;
 
     final snakeViewWidth = oneItemWidth * snakeSize - viewPadding.horizontal;
@@ -101,8 +101,7 @@ class _SnakeViewState extends State<SnakeView> {
           clipBehavior: Clip.antiAlias,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              gradient: SnakeBottomBarTheme.of(context).snakeGradient,
-            ),
+                gradient: SnakeBottomBarTheme.of(context).snakeGradient),
           ),
         ),
       ),
@@ -110,9 +109,15 @@ class _SnakeViewState extends State<SnakeView> {
   }
 
   double _snakeViewHeight(SnakeBottomBarThemeData theme) {
-    return theme.snakeShape.type == SnakeShapeType.indicator
-        ? widget.indicatorHeight
-        : kBottomNavigationBarHeight - theme.snakeShape.padding.vertical;
+    if (theme.snakeShape.type == SnakeShapeType.indicator) {
+      return widget.indicatorHeight;
+    }
+    if (theme.snakeShape.type == SnakeShapeType.circle) {
+      final maxSize = math.min(oneItemWidth, widget.height);
+      return maxSize - theme.snakeShape.padding.vertical;
+    } else {
+      return widget.height - theme.snakeShape.padding.vertical;
+    }
   }
 
   ShapeBorder _snakeShape(SnakeBottomBarThemeData theme) {
