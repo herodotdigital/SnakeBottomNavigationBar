@@ -25,7 +25,8 @@ class SnakeShape {
   const SnakeShape._(
       {this.shape, this.type, this.centered, this.padding = EdgeInsets.zero});
 
-  SnakeShape copyWith({ShapeBorder? shape, bool? centered, EdgeInsets? padding}) {
+  SnakeShape copyWith(
+      {ShapeBorder? shape, bool? centered, EdgeInsets? padding}) {
     return SnakeShape._(
       shape: shape ?? this.shape,
       type: type,
