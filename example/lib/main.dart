@@ -105,7 +105,7 @@ class _SnakeNavigationBarExampleScreenState
         ),
       ),
       bottomNavigationBar: SnakeNavigationBar.color(
-        height: 80,
+        // height: 80,
         behaviour: snakeBarStyle,
         snakeShape: snakeShape,
         shape: bottomBarShape,

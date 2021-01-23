@@ -77,3 +77,5 @@ example/ios/Flutter/Flutter.podspec
 example/ios/Flutter/.last_build_id
 
 example/detective_connect.txt
+
+.fvm/
