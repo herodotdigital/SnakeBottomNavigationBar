@@ -17,14 +17,14 @@ class SnakeView extends StatefulWidget {
   final double height;
 
   const SnakeView({
-    @required this.itemsCount,
-    @required this.widgetEdgePadding,
-    @required this.notifier,
+    required this.itemsCount,
+    required this.widgetEdgePadding,
+    required this.notifier,
     this.animationDuration = const Duration(milliseconds: 200),
     this.delayTransition = const Duration(milliseconds: 50),
     this.snakeCurve = Curves.easeInOut,
     this.indicatorHeight = 4,
-    this.height,
+    required this.height,
   });
 
   @override
@@ -34,10 +34,10 @@ class SnakeView extends StatefulWidget {
 class _SnakeViewState extends State<SnakeView> {
   double left = 0;
   int snakeSize = 1;
-  int currentIndex;
-  Orientation orientation;
-  double oneItemWidth;
-  double prevItemWidth;
+  int? currentIndex;
+  Orientation? orientation;
+  double? oneItemWidth;
+  double? prevItemWidth;
 
   bool get isRTL => Directionality.of(context) == TextDirection.rtl;
 
@@ -54,7 +54,7 @@ class _SnakeViewState extends State<SnakeView> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = SnakeBottomBarTheme.of(context);
+    final theme = SnakeBottomBarTheme.of(context)!;
     oneItemWidth =
         (MediaQuery.of(context).size.width - widget.widgetEdgePadding) /
             widget.itemsCount;
@@ -65,25 +65,25 @@ class _SnakeViewState extends State<SnakeView> {
         currentIndex != widget.notifier.currentIndex ||
         orientation != MediaQuery.of(context).orientation ||
         prevItemWidth != oneItemWidth) {
-      left = oneItemWidth * widget.notifier.currentIndex;
+      left = oneItemWidth! * widget.notifier.currentIndex;
       currentIndex = widget.notifier.currentIndex;
       orientation = MediaQuery.of(context).orientation;
       prevItemWidth = oneItemWidth;
     }
 
     final viewPadding = theme.snakeShape.type == SnakeShapeType.circle ||
-            theme.snakeShape.centered
+            theme.snakeShape.centered!
         ? () {
-            final maxSize = math.min(oneItemWidth, widget.height);
+            final maxSize = math.min(oneItemWidth!, widget.height);
             return EdgeInsets.symmetric(
                   vertical: (widget.height - maxSize) / 2,
-                  horizontal: (oneItemWidth - maxSize) / 2,
+                  horizontal: (oneItemWidth! - maxSize) / 2,
                 ) +
                 theme.snakeShape.padding;
           }()
         : theme.snakeShape.padding;
 
-    final snakeViewWidth = oneItemWidth * snakeSize - viewPadding.horizontal;
+    final snakeViewWidth = oneItemWidth! * snakeSize - viewPadding.horizontal;
 
     return AnimatedPositioned(
       left: isRTL ? null : left,
@@ -101,7 +101,7 @@ class _SnakeViewState extends State<SnakeView> {
           clipBehavior: Clip.antiAlias,
           child: DecoratedBox(
             decoration: BoxDecoration(
-                gradient: SnakeBottomBarTheme.of(context).snakeGradient),
+                gradient: SnakeBottomBarTheme.of(context)!.snakeGradient),
           ),
         ),
       ),
@@ -113,21 +113,20 @@ class _SnakeViewState extends State<SnakeView> {
       return widget.indicatorHeight;
     }
     if (theme.snakeShape.type == SnakeShapeType.circle) {
-      final maxSize = math.min(oneItemWidth, widget.height);
+      final maxSize = math.min(oneItemWidth!, widget.height);
       return maxSize - theme.snakeShape.padding.vertical;
     } else {
       return widget.height - theme.snakeShape.padding.vertical;
     }
   }
 
-  ShapeBorder _snakeShape(SnakeBottomBarThemeData theme) {
+  ShapeBorder? _snakeShape(SnakeBottomBarThemeData theme) {
     switch (theme.snakeShape.type) {
       case SnakeShapeType.circle:
         return _getRoundShape(_snakeViewHeight(theme) / 2);
-        break;
+
       default:
         return theme.snakeShape.shape;
-        break;
     }
   }
 
@@ -139,7 +138,7 @@ class _SnakeViewState extends State<SnakeView> {
       widget.animationDuration + widget.delayTransition,
       () => setState(() {
         snakeSize = 1;
-        left = oneItemWidth * widget.notifier.currentIndex;
+        left = oneItemWidth! * widget.notifier.currentIndex;
       }),
     );
   }
@@ -148,7 +147,7 @@ class _SnakeViewState extends State<SnakeView> {
     final newSnakeSize =
         (widget.notifier.currentIndex - widget.notifier.lastIndex).abs();
     setState(() {
-      left = oneItemWidth * widget.notifier.currentIndex;
+      left = oneItemWidth! * widget.notifier.currentIndex;
       snakeSize = newSnakeSize + 1;
     });
     Future.delayed(

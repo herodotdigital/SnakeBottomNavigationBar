@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 
 class SnakeShape {
   /// Contains a custom view shape
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   ///Used to custom shapes to change bounds:
   ///
   /// if [centered] is true  -> element bounds are square with default padding
   /// if [centered] is false -> element bounds fills the container size
-  final bool centered;
+  final bool? centered;
 
   /// Used internal for distinction defined and custom shapes
-  final SnakeShapeType type;
+  final SnakeShapeType? type;
 
   /// Snake view padding for each tile
   final EdgeInsets padding;
 
   const SnakeShape(
-      {@required this.shape,
+      {required this.shape,
       this.centered = true,
       this.padding = EdgeInsets.zero})
       : type = SnakeShapeType.custom;
@@ -25,7 +25,8 @@ class SnakeShape {
   const SnakeShape._(
       {this.shape, this.type, this.centered, this.padding = EdgeInsets.zero});
 
-  SnakeShape copyWith({ShapeBorder shape, bool centered, EdgeInsets padding}) {
+  SnakeShape copyWith(
+      {ShapeBorder? shape, bool? centered, EdgeInsets? padding}) {
     return SnakeShape._(
       shape: shape ?? this.shape,
       type: type,

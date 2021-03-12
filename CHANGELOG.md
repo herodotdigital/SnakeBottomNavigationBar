@@ -1,3 +1,7 @@
+## [0.5.0] - Stable release with null safety
+
+## [0.4.4-nullsafety.1] - Added height parameter with Null Safety
+
 ## [0.4.4] - Added height parameter
 
 ## [0.4.3-nullsafety.0] - Null Safety Migration

@@ -28,7 +28,7 @@ class _SnakeNavigationBarExampleScreenState
     topRight: Radius.circular(25),
   );
 
-  ShapeBorder bottomBarShape = const RoundedRectangleBorder(
+  ShapeBorder? bottomBarShape = const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(25)),
   );
   SnakeBarBehaviour snakeBarStyle = SnakeBarBehaviour.floating;
@@ -48,7 +48,7 @@ class _SnakeNavigationBarExampleScreenState
   Gradient unselectedGradient =
       const LinearGradient(colors: [Colors.red, Colors.blueGrey]);
 
-  Color containerColor;
+  Color? containerColor;
   List<Color> containerColors = [
     const Color(0xFFFDE1D7),
     const Color(0xFFE4EDF5),
@@ -195,9 +195,9 @@ class _SnakeNavigationBarExampleScreenState
 }
 
 class PagerPageWidget extends StatelessWidget {
-  final String text;
-  final String description;
-  final Image image;
+  final String? text;
+  final String? description;
+  final Image? image;
   final TextStyle titleStyle =
       const TextStyle(fontSize: 40, fontFamily: 'SourceSerifPro');
   final TextStyle subtitleStyle = const TextStyle(
@@ -207,7 +207,7 @@ class PagerPageWidget extends StatelessWidget {
   );
 
   const PagerPageWidget({
-    Key key,
+    Key? key,
     this.text,
     this.description,
     this.image,
@@ -236,12 +236,12 @@ class PagerPageWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(text, style: titleStyle),
+            Text(text!, style: titleStyle),
             const SizedBox(height: 16),
-            Text(description, style: subtitleStyle),
+            Text(description!, style: subtitleStyle),
           ],
         ),
-        image
+        image!
       ],
     );
   }
@@ -256,12 +256,12 @@ class PagerPageWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text(text, style: titleStyle),
-              Text(description, style: subtitleStyle),
+              Text(text!, style: titleStyle),
+              Text(description!, style: subtitleStyle),
             ],
           ),
         ),
-        Expanded(child: image)
+        Expanded(child: image!)
       ],
     );
   }
