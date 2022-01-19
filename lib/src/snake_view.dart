@@ -17,6 +17,7 @@ class SnakeView extends StatefulWidget {
   final double height;
 
   const SnakeView({
+    Key? key,
     required this.itemsCount,
     required this.widgetEdgePadding,
     required this.notifier,
@@ -25,7 +26,7 @@ class SnakeView extends StatefulWidget {
     this.snakeCurve = Curves.easeInOut,
     this.indicatorHeight = 4,
     required this.height,
-  });
+  }) : super(key: key);
 
   @override
   _SnakeViewState createState() => _SnakeViewState();
@@ -101,7 +102,8 @@ class _SnakeViewState extends State<SnakeView> {
           clipBehavior: Clip.antiAlias,
           child: DecoratedBox(
             decoration: BoxDecoration(
-                gradient: SnakeBottomBarTheme.of(context)!.snakeGradient),
+              gradient: SnakeBottomBarTheme.of(context)!.snakeGradient,
+            ),
           ),
         ),
       ),
@@ -109,14 +111,18 @@ class _SnakeViewState extends State<SnakeView> {
   }
 
   double _snakeViewHeight(SnakeBottomBarThemeData theme) {
-    if (theme.snakeShape.type == SnakeShapeType.indicator) {
-      return widget.indicatorHeight;
+    if (theme.snakeShape.height != null) {
+      return theme.snakeShape.height!;
     }
-    if (theme.snakeShape.type == SnakeShapeType.circle) {
-      final maxSize = math.min(oneItemWidth!, widget.height);
-      return maxSize - theme.snakeShape.padding.vertical;
-    } else {
-      return widget.height - theme.snakeShape.padding.vertical;
+
+    switch (theme.snakeShape.type) {
+      case SnakeShapeType.circle:
+        final maxSize = math.min(oneItemWidth!, widget.height);
+        return maxSize - theme.snakeShape.padding.vertical;
+      case SnakeShapeType.indicator:
+        return widget.indicatorHeight;
+      default:
+        return widget.height - theme.snakeShape.padding.vertical;
     }
   }
 
