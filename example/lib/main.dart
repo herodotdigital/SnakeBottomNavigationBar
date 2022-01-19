@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:flutter_snake_navigationbar_example/custom_icons.dart';
 
-void main() => runApp(ExampleApp());
+void main() => runApp(const ExampleApp());
 
 class ExampleApp extends StatelessWidget {
+  const ExampleApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'SnakeNavigationBar Example ',
       home: SnakeNavigationBarExampleScreen(),
     );
@@ -15,6 +18,8 @@ class ExampleApp extends StatelessWidget {
 }
 
 class SnakeNavigationBarExampleScreen extends StatefulWidget {
+  const SnakeNavigationBarExampleScreen({Key? key}) : super(key: key);
+
   @override
   _SnakeNavigationBarExampleScreenState createState() =>
       _SnakeNavigationBarExampleScreenState();
@@ -63,13 +68,13 @@ class _SnakeNavigationBarExampleScreenState
       extendBody: true,
       appBar: AppBar(
         centerTitle: false,
-        brightness: Brightness.light,
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {}),
         title: const Text('Go back', style: TextStyle(color: Colors.black)),
         elevation: 0,
         backgroundColor: Colors.transparent,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: AnimatedContainer(
         color: containerColor ?? containerColors[0],
@@ -126,16 +131,15 @@ class _SnakeNavigationBarExampleScreenState
 
         currentIndex: _selectedItemPosition,
         onTap: (index) => setState(() => _selectedItemPosition = index),
-        items: [
-          const BottomNavigationBarItem(
+        items: const [
+          BottomNavigationBarItem(
               icon: Icon(Icons.notifications), label: 'tickets'),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
               icon: Icon(CustomIcons.calendar), label: 'calendar'),
-          const BottomNavigationBarItem(
-              icon: Icon(CustomIcons.home), label: 'home'),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(icon: Icon(CustomIcons.home), label: 'home'),
+          BottomNavigationBarItem(
               icon: Icon(CustomIcons.podcasts), label: 'microphone'),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
               icon: Icon(CustomIcons.search), label: 'search')
         ],
         selectedLabelStyle: const TextStyle(fontSize: 14),
@@ -250,7 +254,7 @@ class PagerPageWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width / 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

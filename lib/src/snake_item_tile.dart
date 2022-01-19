@@ -13,12 +13,13 @@ class SnakeItemTile extends StatelessWidget {
   final VoidCallback? onTap;
 
   const SnakeItemTile({
+    Key? key,
     this.icon,
     this.label,
     this.position,
     this.isSelected,
     this.onTap,
-  });
+  }) : super(key: key);
 
   bool isIndicatorStyle(SnakeBottomBarThemeData theme) =>
       theme.snakeShape.type == SnakeShapeType.indicator;

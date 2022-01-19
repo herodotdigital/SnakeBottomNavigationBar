@@ -98,7 +98,7 @@ class SnakeNavigationBar extends StatelessWidget {
     this.selectedLabelStyle,
     this.unselectedLabelStyle,
     required this.height,
-  })   : showSelectedLabels =
+  })  : showSelectedLabels =
             (snakeShape.type == SnakeShapeType.circle && showSelectedLabels)
                 ? false
                 : showSelectedLabels,
@@ -195,8 +195,8 @@ class SnakeNavigationBar extends StatelessWidget {
   SnakeBottomBarThemeData _createTheme(BuildContext context) {
     final theme = BottomNavigationBarTheme.of(context);
     return SnakeBottomBarThemeData(
-      snakeGradient:
-          snakeViewGradient ?? Theme.of(context).accentColor.toGradient,
+      snakeGradient: snakeViewGradient ??
+          Theme.of(context).colorScheme.secondary.toGradient,
       backgroundGradient: backgroundGradient ??
           theme.backgroundColor?.toGradient ??
           Theme.of(context).cardColor.toGradient,
@@ -205,7 +205,7 @@ class SnakeNavigationBar extends StatelessWidget {
           Theme.of(context).cardColor.toGradient,
       unselectedItemGradient: unselectedItemGradient ??
           theme.unselectedItemColor?.toGradient ??
-          Theme.of(context).accentColor.toGradient,
+          Theme.of(context).colorScheme.secondary.toGradient,
       showSelectedLabels: showSelectedLabels,
       showUnselectedLabels: showUnselectedLabels,
       snakeShape: snakeShape,

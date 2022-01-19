@@ -17,6 +17,7 @@ class SnakeView extends StatefulWidget {
   final double height;
 
   const SnakeView({
+    Key? key,
     required this.itemsCount,
     required this.widgetEdgePadding,
     required this.notifier,
@@ -25,7 +26,7 @@ class SnakeView extends StatefulWidget {
     this.snakeCurve = Curves.easeInOut,
     this.indicatorHeight = 4,
     required this.height,
-  });
+  }) : super(key: key);
 
   @override
   _SnakeViewState createState() => _SnakeViewState();
