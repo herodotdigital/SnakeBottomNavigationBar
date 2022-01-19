@@ -16,17 +16,29 @@ class SnakeShape {
   /// Snake view padding for each tile
   final EdgeInsets padding;
 
-  const SnakeShape(
-      {required this.shape,
-      this.centered = true,
-      this.padding = EdgeInsets.zero})
-      : type = SnakeShapeType.custom;
+  ///Snake view height
+  final double? height;
 
-  const SnakeShape._(
-      {this.shape, this.type, this.centered, this.padding = EdgeInsets.zero});
+  const SnakeShape({
+    required this.shape,
+    this.centered = true,
+    this.padding = EdgeInsets.zero,
+    this.height,
+  }) : type = SnakeShapeType.custom;
 
-  SnakeShape copyWith(
-      {ShapeBorder? shape, bool? centered, EdgeInsets? padding}) {
+  const SnakeShape._({
+    this.shape,
+    this.type,
+    this.centered,
+    this.padding = EdgeInsets.zero,
+    this.height,
+  });
+
+  SnakeShape copyWith({
+    ShapeBorder? shape,
+    bool? centered,
+    EdgeInsets? padding,
+  }) {
     return SnakeShape._(
       shape: shape ?? this.shape,
       type: type,

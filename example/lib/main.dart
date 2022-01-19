@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:flutter_snake_navigationbar_example/custom_icons.dart';
 
@@ -41,10 +40,10 @@ class _SnakeNavigationBarExampleScreenState
   bool showUnselectedLabels = false;
 
   Color selectedColor = Colors.black;
+  Color unselectedColor = Colors.blueGrey;
+
   Gradient selectedGradient =
       const LinearGradient(colors: [Colors.red, Colors.amber]);
-
-  Color unselectedColor = Colors.blueGrey;
   Gradient unselectedGradient =
       const LinearGradient(colors: [Colors.red, Colors.blueGrey]);
 
@@ -115,7 +114,7 @@ class _SnakeNavigationBarExampleScreenState
         snakeViewColor: selectedColor,
         selectedItemColor:
             snakeShape == SnakeShape.indicator ? selectedColor : null,
-        unselectedItemColor: Colors.blueGrey,
+        unselectedItemColor: unselectedColor,
 
         ///configuration for SnakeNavigationBar.gradient
         // snakeViewGradient: selectedGradient,
