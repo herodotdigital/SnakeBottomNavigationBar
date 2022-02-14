@@ -261,7 +261,8 @@ class _SnakeNavigationBar extends StatelessWidget {
 
     final List<Widget> tiles = items!
         .mapIndexed((index, item) => SnakeItemTile(
-              icon: item.icon,
+              icon:
+                  notifier.currentIndex == index ? item.activeIcon : item.icon,
               label: item.label,
               position: index,
               isSelected: notifier.currentIndex == index,
