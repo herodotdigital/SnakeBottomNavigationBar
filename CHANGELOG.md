@@ -1,3 +1,5 @@
+## [0.6.1] - Bugfix/active icon
+
 ## [0.6.0] - Added height parameter to SnakeShape configuration
 
 ## [0.5.0] - Stable release with null safety
