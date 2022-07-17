@@ -44,6 +44,7 @@ class SnakeShape {
       type: type,
       centered: centered ?? this.centered,
       padding: padding ?? this.padding,
+      height: height
     );
   }
 
