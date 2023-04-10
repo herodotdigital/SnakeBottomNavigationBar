@@ -29,10 +29,10 @@ class SnakeView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SnakeViewState createState() => _SnakeViewState();
+  SnakeViewState createState() => SnakeViewState();
 }
 
-class _SnakeViewState extends State<SnakeView> {
+class SnakeViewState extends State<SnakeView> {
   double left = 0;
   int snakeSize = 1;
   int? currentIndex;
